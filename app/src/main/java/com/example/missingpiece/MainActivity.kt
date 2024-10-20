@@ -2,6 +2,7 @@ package com.example.missingpiece
 
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -33,13 +34,22 @@ fun MyAppNavHost(
     navController: NavHostController = rememberNavController()
     ) {
     NavHost(navController = navController, startDestination = "start" ){
+        composable("start"){
+            Start(
+                goToGame = { navController.navigate("game")},
+                goToHighScore = { navController.navigate("highScore")},
+                goToInstructions = { navController.navigate("gameInstructions")}
+            );
+        }
         composable("game"){
             Game();
         }
-        composable("start"){
-            Start();
+        composable("highScore"){
+            HighScore();
         }
-
+        composable("gameInstructions"){
+            GameInstructions();
+        }
     }
 }
 

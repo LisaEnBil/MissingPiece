@@ -8,13 +8,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.missingpiece.ui.theme.MissingPieceTheme
 
 @Composable
-fun Start(){
+fun Start(
+    goToGame : () -> Unit,
+    goToHighScore : () -> Unit,
+    goToInstructions: () -> Unit){
     Column {
-        Text("Start")
-        
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = {
+            goToGame()
+        }) {
             Text("START GAME")
         }
+
+        Button(onClick = {
+            goToHighScore()
+        }) {
+            Text("HIGH SCORE")
+        }
+
+        Button(onClick = {
+            goToInstructions()
+        }) {
+            Text("INSTRUCTIONS")
+        }
+
     }
 }
 
@@ -24,6 +40,10 @@ fun Start(){
 @Composable
 fun StartPreview() {
     MissingPieceTheme {
-        Start()
+        Start(
+            goToGame = {},
+            goToHighScore = {},
+            goToInstructions = {}
+        )
     }
 }

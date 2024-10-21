@@ -21,10 +21,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.missingpiece.ui.theme.MissingPieceTheme
 
 enum class NavScreen(){
-    start,
-    highScore,
-    gameInstructions,
-    game
+    Start,
+    HighScore,
+    GameInstructions,
+    Game
 }
 
 
@@ -41,21 +41,21 @@ class MainActivity : ComponentActivity() {
 fun MyAppNavHost(
     navController: NavHostController = rememberNavController()
     ) {
-    NavHost(navController = navController, startDestination = NavScreen.start.name ){
-        composable(NavScreen.start.name){
+    NavHost(navController = navController, startDestination = NavScreen.Start.name ){
+        composable(NavScreen.Start.name){
             Start(
-                goToGame = { navController.navigate(NavScreen.game.name)},
-                goToHighScore = { navController.navigate(NavScreen.highScore.name)},
-                goToInstructions = { navController.navigate(NavScreen.gameInstructions.name)}
+                goToGame = { navController.navigate(NavScreen.Game.name)},
+                goToHighScore = { navController.navigate(NavScreen.HighScore.name)},
+                goToInstructions = { navController.navigate(NavScreen.GameInstructions.name)}
             );
         }
-        composable(NavScreen.game.name){
+        composable(NavScreen.Game.name){
             Game();
         }
-        composable(NavScreen.highScore.name){
+        composable(NavScreen.HighScore.name){
             HighScore();
         }
-        composable(NavScreen.gameInstructions.name){
+        composable(NavScreen.GameInstructions.name){
             GameInstructions();
         }
     }

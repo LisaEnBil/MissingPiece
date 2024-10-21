@@ -16,8 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.missingpiece.ui.theme.Blue10
 import com.example.missingpiece.ui.theme.Blue40
 import com.example.missingpiece.ui.theme.MissingPieceTheme
@@ -42,7 +45,10 @@ fun Start(
             modifier = Modifier
                 .width(width = 250.dp)
             ) {
-            Text("START GAME")
+            Text("START GAME",
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 16.sp)
         }
 
         Button(
@@ -54,7 +60,10 @@ fun Start(
                 .width(width = 250.dp)
 
         ) {
-            Text("HIGH SCORE")
+            Text("HIGH SCORE",
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 16.sp)
         }
 
         Button(
@@ -65,7 +74,10 @@ fun Start(
             modifier = Modifier
                 .width(width = 250.dp)
             ) {
-            Text("INSTRUCTIONS")
+            Text("INSTRUCTIONS",
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 16.sp)
         }
 
     }

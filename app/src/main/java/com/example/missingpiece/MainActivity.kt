@@ -20,6 +20,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.missingpiece.ui.theme.MissingPieceTheme
 
+enum class NavScreen(){
+    start,
+    highScore,
+    gameInstructions,
+    game
+}
+
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,21 +41,21 @@ class MainActivity : ComponentActivity() {
 fun MyAppNavHost(
     navController: NavHostController = rememberNavController()
     ) {
-    NavHost(navController = navController, startDestination = "start" ){
-        composable("start"){
+    NavHost(navController = navController, startDestination = NavScreen.start.name ){
+        composable(NavScreen.start.name){
             Start(
-                goToGame = { navController.navigate("game")},
-                goToHighScore = { navController.navigate("highScore")},
-                goToInstructions = { navController.navigate("gameInstructions")}
+                goToGame = { navController.navigate(NavScreen.game.name)},
+                goToHighScore = { navController.navigate(NavScreen.highScore.name)},
+                goToInstructions = { navController.navigate(NavScreen.gameInstructions.name)}
             );
         }
-        composable("game"){
+        composable(NavScreen.game.name){
             Game();
         }
-        composable("highScore"){
+        composable(NavScreen.highScore.name){
             HighScore();
         }
-        composable("gameInstructions"){
+        composable(NavScreen.gameInstructions.name){
             GameInstructions();
         }
     }

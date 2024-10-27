@@ -12,8 +12,35 @@ import kotlin.math.abs
 
 class Puzzle {
 
+    private fun countInversions(flatGrid: List<Int>): Int {
+        var inversions = 0
+        for (i in flatGrid.indices) {
+            for (j in i + 1 until flatGrid.size) {
+                if (flatGrid[i] > flatGrid[j] && flatGrid[i] != 0 && flatGrid[j] != 0) {
+                    inversions++
+                }
+            }
+        }
+        return inversions
+    }
+
+    private fun isSolvable(grid: List<List<Int>>): Boolean {
+        val flatGrid = grid.flatten()
+        val inversions = countInversions(flatGrid)
+        val emptyRowFromBottom = grid.size - findEmptyPosition(grid).second
+
+        if (grid.size % 2 == 1) {
+            return inversions % 2 == 0
+        }
+        return (inversions % 2 == 1) == (emptyRowFromBottom % 2 == 0)
+    }
+
     fun generateGrid(): List<List<Int>> {
-        return (0..8).shuffled().chunked(3)
+        var grid: List<List<Int>>
+        do {
+            grid = (0..8).shuffled().chunked(3)
+        } while (!isSolvable(grid))
+        return grid
     }
 
     fun getDragDirection(dragAmount: Offset): Direction? {

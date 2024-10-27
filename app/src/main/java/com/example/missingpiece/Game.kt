@@ -123,7 +123,9 @@ fun drawPuzzleBoard(screenHeight: Dp) {
             row.forEachIndexed { x, number ->
                 Log.i("HI", y.toString() + x.toString())
                 if (number != 0) {
-                    drawBoxWithNumber( number, x, y, cellSize)
+                    with(puzzle){
+                        drawBoxWithNumber( number, x, y, cellSize)
+                    }
                 }
             }
         }

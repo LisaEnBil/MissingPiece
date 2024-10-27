@@ -83,34 +83,34 @@ class Puzzle {
             } else this to emptyPosition
         }
     }
-}
 
+    fun DrawScope.drawBoxWithNumber(number: Int, x: Int, y: Int, cellSize: Float){
 
+        val padding = 5
+        val boxSize = cellSize - (padding * 2)
+        val left = (x * cellSize) + padding
+        val top = (y * cellSize) + padding
 
-fun DrawScope.drawBoxWithNumber(number: Int, x: Int, y: Int, cellSize: Float){
-
-    val padding = 5
-    val boxSize = cellSize - (padding * 2)
-    val left = (x * cellSize) + padding
-    val top = (y * cellSize) + padding
-
-    drawRect(
-        color = Blue10,
-        topLeft = Offset(left, top),
-        size = Size(boxSize, boxSize)
-    )
-
-    drawIntoCanvas { canvas ->
-        val paint = Paint().asFrameworkPaint().apply {
-            color = android.graphics.Color.WHITE
-            textSize = 24.sp.toPx()
-            textAlign = android.graphics.Paint.Align.CENTER
-        }
-        canvas.nativeCanvas.drawText(
-            number.toString(),
-            left + (cellSize / 2),
-            top + (cellSize / 2) + (paint.textSize / 3),
-            paint
+        drawRect(
+            color = Blue10,
+            topLeft = Offset(left, top),
+            size = Size(boxSize, boxSize)
         )
+
+        drawIntoCanvas { canvas ->
+            val paint = Paint().asFrameworkPaint().apply {
+                color = android.graphics.Color.WHITE
+                textSize = 24.sp.toPx()
+                textAlign = android.graphics.Paint.Align.CENTER
+            }
+            canvas.nativeCanvas.drawText(
+                number.toString(),
+                left + (cellSize / 2),
+                top + (cellSize / 2) + (paint.textSize / 3),
+                paint
+            )
+        }
     }
 }
+
+

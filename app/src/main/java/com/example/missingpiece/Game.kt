@@ -94,9 +94,9 @@ fun Game(){
 
                 }
             ){
-
+                drawPuzzleBoard(halfScreenHeight)
             }
-            drawPuzzleBoard(halfScreenHeight)
+
             Text(text = "Game", color = Blue10)
         }
     }
@@ -173,14 +173,14 @@ fun DrawScope.drawBoxWithNumber(number: Int, x: Int, y: Int, cellSize: Float){
 
 
     drawRect(
-        color = Color.Blue,
+        color = Blue10,
         topLeft = Offset(left, top),
         size = Size(boxSize, boxSize)
     )
 
     drawIntoCanvas { canvas ->
         val paint = Paint().asFrameworkPaint().apply {
-            color = android.graphics.Color.BLUE
+            color = android.graphics.Color.WHITE
             textSize = 24.sp.toPx()
             textAlign = android.graphics.Paint.Align.CENTER
         }

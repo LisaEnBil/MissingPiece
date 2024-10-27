@@ -48,30 +48,6 @@ enum class Direction {
     RIGHT
 }
 
-fun getDragDirection(dragAmount: Offset): Direction? {
-    return when {
-        abs(dragAmount.x) > abs(dragAmount.y) -> {
-            if (dragAmount.x > 0) Direction.RIGHT else Direction.LEFT
-        }
-        abs(dragAmount.y) > abs(dragAmount.x) -> {
-            if (dragAmount.y > 0) Direction.DOWN else Direction.UP
-        }
-        else -> null
-    }
-}
-
-
-fun findEmptyPosition(grid: List<List<Int>>): Pair<Int, Int> {
-    grid.forEachIndexed { y, row ->
-        row.forEachIndexed { x, number ->
-            if (number == 0) return x to y
-        }
-    }
-    throw IllegalStateException("No empty spaces in grid")
-}
-
-
-
 @Composable
 fun Game(){
     val imageBitmap = ImageBitmap.imageResource(R.drawable.puppies)
@@ -102,43 +78,35 @@ fun Game(){
     }
 }
 
-fun generateGrid(): List<List<Int>> {
-    return (0..8).shuffled().chunked(3)
-}
 
 @Composable
 fun drawPuzzleBoard(screenHeight: Dp) {
-
-    var grid = remember { mutableStateOf(generateGrid()) }
-    var emptyPosition = remember { mutableStateOf(findEmptyPosition(grid.value)) }
+    val puzzle = remember { Puzzle() }
+    var grid = remember { mutableStateOf(puzzle.generateGrid()) }
+    var emptyPosition = remember { mutableStateOf(puzzle.findEmptyPosition(grid.value)) }
 
 
     Canvas(modifier = Modifier
         .size(screenHeight)
         .pointerInput(Unit) {
             detectDragGestures(
-                onDragEnd = {
-                    // When drag ends, stop further detection until next swipe
-                },
-                onDragCancel = {
-                    // When drag cancels, stop further detection until next swipe
-                },
+                onDragEnd = {},
+                onDragCancel = {},
                 onDrag = { change, dragAmount ->
-                    // Determine the direction of the swipe based on the drag amount.
-                    val direction = getDragDirection(dragAmount)
+                    val direction = puzzle.getDragDirection(dragAmount)
                     if (direction != null) {
-                        // Identify which box was touched.
                         val touchedBox =
-                            findTouchedBox(change.position, grid.value.size, size.width / 3f)
+                            puzzle.findTouchedBox(change.position, grid.value.size, size.width / 3f)
                         if (touchedBox != null) {
-                            // Move the box only if it is adjacent to the empty space.
-                            val (newGrid, newEmptyPosition) = grid.value.tryMove(
-                                direction,
-                                emptyPosition.value,
-                                touchedBox
-                            )
-                            grid.value = newGrid
-                            emptyPosition.value = newEmptyPosition
+                            with(puzzle){
+                                val (newGrid, newEmptyPosition) = grid.value.tryMove(
+                                    direction,
+                                    emptyPosition.value,
+                                    touchedBox
+                                )
+                                grid.value = newGrid
+                                emptyPosition.value = newEmptyPosition
+                            }
                         }
                     }
                 }
@@ -164,83 +132,7 @@ fun drawPuzzleBoard(screenHeight: Dp) {
 
 }
 
-fun DrawScope.drawBoxWithNumber(number: Int, x: Int, y: Int, cellSize: Float){
 
-    val padding = 5
-    val boxSize = cellSize - (padding * 2)
-    val left = (x * cellSize) + padding
-    val top = (y * cellSize) + padding
-
-
-    drawRect(
-        color = Blue10,
-        topLeft = Offset(left, top),
-        size = Size(boxSize, boxSize)
-    )
-
-    drawIntoCanvas { canvas ->
-        val paint = Paint().asFrameworkPaint().apply {
-            color = android.graphics.Color.WHITE
-            textSize = 24.sp.toPx()
-            textAlign = android.graphics.Paint.Align.CENTER
-        }
-        canvas.nativeCanvas.drawText(
-            number.toString(),
-            left + (cellSize / 2),
-            top + (cellSize / 2) + (paint.textSize / 3),
-            paint
-        )
-    }
-}
-
-fun List<List<Int>>.tryMove(
-    direction: Direction,
-    emptyPosition: Pair<Int, Int>,
-    touchedBox: Pair<Int, Int>
-): Pair<List<List<Int>>, Pair<Int, Int>> {
-    val (emptyX, emptyY) = emptyPosition
-    val (touchedX, touchedY) = touchedBox
-    val newGrid = this.map { it.toMutableList() }
-
-    return when (direction) {
-        Direction.UP -> if (touchedX == emptyX && touchedY == emptyY + 1) {
-            // Move the box down if the empty space is directly below it.
-            newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
-            newGrid[touchedY][touchedX] = 0
-            newGrid to (touchedX to touchedY)
-        } else this to emptyPosition
-
-        Direction.DOWN -> if (touchedX == emptyX && touchedY == emptyY - 1) {
-            // Move the box up if the empty space is directly above it.
-            newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
-            newGrid[touchedY][touchedX] = 0
-            newGrid to (touchedX to touchedY)
-        } else this to emptyPosition
-
-        Direction.LEFT -> if (touchedY == emptyY && touchedX == emptyX + 1) {
-            // Move the box left if the empty space is directly to the left of it.
-            newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
-            newGrid[touchedY][touchedX] = 0
-            newGrid to (touchedX to touchedY)
-        } else this to emptyPosition
-
-        Direction.RIGHT -> if (touchedY == emptyY && touchedX == emptyX - 1) {
-            // Move the box right if the empty space is directly to the right of it.
-            newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
-            newGrid[touchedY][touchedX] = 0
-            newGrid to (touchedX to touchedY)
-        } else this to emptyPosition
-    }
-}
-
-
-fun findTouchedBox(position: Offset, gridSize: Int, cellSize: Float): Pair<Int, Int>? {
-    val x = (position.x / cellSize).toInt()
-    val y = (position.y / cellSize).toInt()
-
-    return if (x in 0 until gridSize && y in 0 until gridSize) x to y else null
-
-}
 
 
 

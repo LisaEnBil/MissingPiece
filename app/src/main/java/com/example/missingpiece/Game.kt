@@ -67,12 +67,10 @@ fun Game(){
                 .height(halfScreenHeight)
                 .fillMaxWidth(fraction = 1f)
                 .pointerInput(Unit) {
-
                 }
             ){
                 drawPuzzleBoard(halfScreenHeight)
             }
-
             Text(text = "Game", color = Blue10)
         }
     }
@@ -84,7 +82,6 @@ fun drawPuzzleBoard(screenHeight: Dp) {
     val puzzle = remember { Puzzle() }
     var grid = remember { mutableStateOf(puzzle.generateGrid()) }
     var emptyPosition = remember { mutableStateOf(puzzle.findEmptyPosition(grid.value)) }
-
 
     Canvas(modifier = Modifier
         .size(screenHeight)
@@ -129,15 +126,8 @@ fun drawPuzzleBoard(screenHeight: Dp) {
                 }
             }
         }
-
     }
-
 }
-
-
-
-
-
 
 @Preview(showBackground = true)
 @Composable

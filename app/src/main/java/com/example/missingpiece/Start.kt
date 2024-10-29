@@ -30,8 +30,8 @@ import com.example.missingpiece.ui.theme.Orange40
 fun Start(
     goToGame : () -> Unit,
     goToHighScore : () -> Unit,
-    goToInstructions: () -> Unit,
-    modifier: Modifier = Modifier){
+    goToInstructions: () -> Unit
+){
     Column(
         modifier = Modifier.fillMaxSize().background(color = Blue10),
         verticalArrangement = Arrangement.Center,
@@ -50,7 +50,6 @@ fun Start(
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp)
         }
-
         Button(
             onClick = { goToHighScore()},
             colors = ButtonDefaults
@@ -58,14 +57,12 @@ fun Start(
             border = BorderStroke(2.dp, color = Orange40),
             modifier = Modifier
                 .width(width = 250.dp)
-
         ) {
             Text("HIGH SCORE",
                 fontFamily = FontFamily.SansSerif,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp)
         }
-
         Button(
             onClick = { goToInstructions() },
             colors = ButtonDefaults
@@ -79,7 +76,6 @@ fun Start(
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp)
         }
-
     }
 }
 

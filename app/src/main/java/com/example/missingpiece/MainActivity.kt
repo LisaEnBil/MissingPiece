@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -29,16 +30,19 @@ enum class NavScreen(){
 
 
 class MainActivity : ComponentActivity() {
+    private val viewModel: GameViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MyAppNavHost()
+            MyAppNavHost(viewModel)
         }
     }
 }
 
 @Composable
 fun MyAppNavHost(
+    viewModel: GameViewModel,
     navController: NavHostController = rememberNavController()
     ) {
     NavHost(navController = navController, startDestination = NavScreen.Start.name ){
@@ -46,11 +50,14 @@ fun MyAppNavHost(
             Start(
                 goToGame = { navController.navigate(NavScreen.Game.name)},
                 goToHighScore = { navController.navigate(NavScreen.HighScore.name)},
-                goToInstructions = { navController.navigate(NavScreen.GameInstructions.name)}
+                goToInstructions = { navController.navigate(NavScreen.GameInstructions.name)},
+                viewModel = viewModel
             );
         }
         composable(NavScreen.Game.name){
-            Game();
+            Game(viewModel = viewModel,
+                onBackPressed = { navController.popBackStack() });
+
         }
         composable(NavScreen.HighScore.name){
             HighScore();
@@ -58,13 +65,5 @@ fun MyAppNavHost(
         composable(NavScreen.GameInstructions.name){
             GameInstructions();
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun NavHostPreview() {
-    MissingPieceTheme {
-        MyAppNavHost()
     }
 }

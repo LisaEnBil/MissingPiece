@@ -4,6 +4,7 @@ import android.R.attr.left
 import android.R.attr.top
 import android.R.color
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -49,7 +51,7 @@ enum class Direction {
 }
 
 @Composable
-fun Game(){
+fun Game(viewModel: GameViewModel, onBackPressed: () -> Unit){
     val imageBitmap = ImageBitmap.imageResource(R.drawable.puppies)
 
     BoxWithConstraints(modifier = Modifier
@@ -69,7 +71,8 @@ fun Game(){
                 .pointerInput(Unit) {
                 }
             ){
-                drawPuzzleBoard(halfScreenHeight)
+                DrawPuzzleBoard(halfScreenHeight, viewModel, onBackPressed)
+
             }
             Text(text = "Game", color = Blue10)
         }
@@ -78,10 +81,25 @@ fun Game(){
 
 
 @Composable
-fun drawPuzzleBoard(screenHeight: Dp) {
+fun DrawPuzzleBoard(screenHeight: Dp, viewModel: GameViewModel, onBackPressed: () -> Unit) {
     val puzzle = remember { Puzzle() }
-    var grid = remember { mutableStateOf(puzzle.generateGrid()) }
+    var grid = remember { mutableStateOf(viewModel.getSavedGameState()?: puzzle.generateGrid()) }
     var emptyPosition = remember { mutableStateOf(puzzle.findEmptyPosition(grid.value)) }
+
+ /*   var grid = remember { mutableStateOf( viewModel.getSavedGameState() ?: puzzle.generateGrid()) }
+    val emptyPosition = remember { mutableStateOf(puzzle.findEmptyPosition(puzzle.generateGrid())) }
+*/
+    DisposableEffect(Unit) {
+        onDispose {
+            viewModel.saveGameState(grid.value)
+        }
+    }
+
+    BackHandler {
+        viewModel.saveGameState(grid.value)
+        onBackPressed()
+    }
+
 
     Canvas(modifier = Modifier
         .size(screenHeight)
@@ -95,7 +113,7 @@ fun drawPuzzleBoard(screenHeight: Dp) {
                         val touchedBox =
                             puzzle.findTouchedBox(change.position, grid.value.size, size.width / 3f)
                         if (touchedBox != null) {
-                            with(puzzle){
+                            with(puzzle) {
                                 val (newGrid, newEmptyPosition) = grid.value.tryMove(
                                     direction,
                                     emptyPosition.value,
@@ -129,10 +147,3 @@ fun drawPuzzleBoard(screenHeight: Dp) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GamePreview() {
-    MissingPieceTheme {
-        Game()
-    }
-}

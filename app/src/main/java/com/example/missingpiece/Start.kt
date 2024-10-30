@@ -28,6 +28,7 @@ import com.example.missingpiece.ui.theme.Orange40
 
 @Composable
 fun Start(
+    viewModel: GameViewModel,
     goToGame : () -> Unit,
     goToHighScore : () -> Unit,
     goToInstructions: () -> Unit
@@ -37,6 +38,17 @@ fun Start(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         ){
+        if (viewModel.hasOngoingGame.value) {
+            Button(
+                onClick = goToGame,
+                colors = ButtonDefaults.buttonColors(containerColor = Blue40),
+                border = BorderStroke(2.dp, color = Orange40),
+                modifier = Modifier.width(width = 250.dp)
+            ) {
+                Text("RESUME GAME")
+            }
+        }
+
         Button(
             onClick = { goToGame()},
             colors = ButtonDefaults
@@ -80,15 +92,3 @@ fun Start(
 }
 
 
-
-@Preview(showBackground = true)
-@Composable
-fun StartPreview() {
-    MissingPieceTheme {
-        Start(
-            goToGame = {},
-            goToHighScore = {},
-            goToInstructions = {}
-        )
-    }
-}

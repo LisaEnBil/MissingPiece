@@ -48,9 +48,11 @@ class Puzzle {
             abs(dragAmount.x) > abs(dragAmount.y) -> {
                 if (dragAmount.x > 0) Direction.RIGHT else Direction.LEFT
             }
+
             abs(dragAmount.y) > abs(dragAmount.x) -> {
                 if (dragAmount.y > 0) Direction.DOWN else Direction.UP
             }
+
             else -> null
         }
     }
@@ -111,7 +113,7 @@ class Puzzle {
         }
     }
 
-    fun DrawScope.drawBoxWithNumber(number: Int, x: Int, y: Int, cellSize: Float){
+    fun DrawScope.drawBoxWithNumber(number: Int, x: Int, y: Int, cellSize: Float) {
 
         val padding = 5
         val boxSize = cellSize - (padding * 2)

@@ -67,9 +67,17 @@ fun Game(viewModel: GameViewModel, onBackPressed: () -> Unit) {
 }
 
 @Composable
-fun DrawPuzzleBoard(screenHeight: Dp, viewModel: GameViewModel, onBackPressed: () -> Unit) {
+fun DrawPuzzleBoard(
+    screenHeight: Dp,
+    viewModel: GameViewModel,
+    onBackPressed: () -> Unit
+) {
     val puzzle = remember { Puzzle() }
-    var grid = remember { mutableStateOf(viewModel.getSavedGameState() ?: puzzle.generateGrid()) }
+
+    val grid = remember {
+        mutableStateOf(viewModel.getSavedGameState() ?: puzzle.generateGrid())
+    }
+
     var emptyPosition = remember { mutableStateOf(puzzle.findEmptyPosition(grid.value)) }
 
     DisposableEffect(Unit) {

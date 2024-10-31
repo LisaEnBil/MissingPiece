@@ -32,7 +32,7 @@ fun Start(
     viewModel: GameViewModel,
     goToGame: () -> Unit,
     goToHighScore: () -> Unit,
-    goToInstructions: () -> Unit,
+    goToSettings: () -> Unit,
 ) {
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -98,7 +98,7 @@ fun Start(
                 )
             }
             Button(
-                onClick = { goToInstructions() },
+                onClick = { goToSettings() },
                 colors = ButtonDefaults
                     .buttonColors(containerColor = Blue10),
                 border = BorderStroke(2.dp, color = Orange10),
@@ -106,7 +106,7 @@ fun Start(
                     .width(width = 250.dp)
             ) {
                 Text(
-                    "INSTRUCTIONS",
+                    "SETTINGS",
                     fontFamily = FontFamily.SansSerif,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 16.sp

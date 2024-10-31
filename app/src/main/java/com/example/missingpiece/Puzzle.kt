@@ -35,10 +35,11 @@ class Puzzle {
         return (inversions % 2 == 1) == (emptyRowFromBottom % 2 == 0)
     }
 
-    fun generateGrid(): List<List<Int>> {
+    fun generateGrid(difficulty: Int): List<List<Int>> {
         var grid: List<List<Int>>
+        val gridUpperValue = difficulty * difficulty -1
         do {
-            grid = (0..8).shuffled().chunked(3)
+            grid = (0..gridUpperValue).shuffled().chunked(difficulty)
         } while (!isSolvable(grid))
         return grid
     }

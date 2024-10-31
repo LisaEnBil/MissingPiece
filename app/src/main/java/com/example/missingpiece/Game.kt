@@ -20,13 +20,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.Dp
 import com.example.missingpiece.ui.theme.Blue10
+import com.example.missingpiece.ui.theme.Orange40
 
 
 enum class Direction {
@@ -39,6 +39,8 @@ enum class Direction {
 @Composable
 fun Game(viewModel: GameViewModel, onBackPressed: () -> Unit) {
     val imageBitmap = ImageBitmap.imageResource(R.drawable.puppies)
+
+    val difficulty = viewModel.difficulty.value
 
     BoxWithConstraints(
         modifier = Modifier
@@ -59,7 +61,7 @@ fun Game(viewModel: GameViewModel, onBackPressed: () -> Unit) {
                 .pointerInput(Unit) {
                 }
             ) {
-                DrawPuzzleBoard(halfScreenHeight, viewModel, onBackPressed)
+                DrawPuzzleBoard(halfScreenHeight, viewModel, onBackPressed, difficulty)
             }
             Text(text = "Game", color = Blue10)
         }
@@ -70,12 +72,13 @@ fun Game(viewModel: GameViewModel, onBackPressed: () -> Unit) {
 fun DrawPuzzleBoard(
     screenHeight: Dp,
     viewModel: GameViewModel,
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
+    difficulty: Int
 ) {
     val puzzle = remember { Puzzle() }
 
     val grid = remember {
-        mutableStateOf(viewModel.getSavedGameState() ?: puzzle.generateGrid())
+        mutableStateOf(viewModel.getSavedGameState() ?: puzzle.generateGrid(difficulty))
     }
 
     var emptyPosition = remember { mutableStateOf(puzzle.findEmptyPosition(grid.value)) }
@@ -90,8 +93,10 @@ fun DrawPuzzleBoard(
         viewModel.saveGameState(grid.value)
         onBackPressed()
     }
+    val difficultyInt = difficulty * 1f
 
     Canvas(modifier = Modifier
+        .background(color = Orange40)
         .size(screenHeight)
         .pointerInput(Unit) {
             detectDragGestures(
@@ -104,7 +109,7 @@ fun DrawPuzzleBoard(
                             puzzle.findTouchedBox(
                                 change.position,
                                 grid.value.size,
-                                size.width / 3f
+                                size.width / difficultyInt
                             )
                         if (touchedBox != null) {
                             with(puzzle) {
@@ -121,26 +126,11 @@ fun DrawPuzzleBoard(
                 }
             )
         }) {
-        val cellSize = size.width / 3
-
-        drawLine(Color.White, Offset(cellSize, 0f), Offset(cellSize, size.height), strokeWidth = 2f)
-        drawLine(
-            Color.White,
-            Offset(cellSize * 2, 0f),
-            Offset(cellSize * 2, size.height),
-            strokeWidth = 2f
-        )
-        drawLine(Color.White, Offset(0f, cellSize), Offset(size.width, cellSize), strokeWidth = 2f)
-        drawLine(
-            Color.White,
-            Offset(0f, cellSize * 2),
-            Offset(size.width, cellSize * 2),
-            strokeWidth = 2f
-        )
+        val cellSize = size.width / difficulty
 
         grid.value.forEachIndexed { y, row ->
             row.forEachIndexed { x, number ->
-                Log.i("HI", y.toString() + x.toString())
+
                 if (number != 0) {
                     with(puzzle) {
                         drawBoxWithNumber(number, x, y, cellSize)

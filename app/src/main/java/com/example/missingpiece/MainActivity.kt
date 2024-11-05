@@ -53,7 +53,7 @@ fun MyAppNavHost(
             HighScore();
         }
         composable(NavScreen.Settings.name) {
-            Settings(onDifficultySelected = { }, viewModel = viewModel,);
+            Settings( viewModel = viewModel,);
         }
     }
 }

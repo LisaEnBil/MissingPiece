@@ -3,9 +3,12 @@ package com.example.missingpiece
 import android.provider.Settings
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,51 +22,74 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.missingpiece.ui.theme.Blue10
+import com.example.missingpiece.ui.theme.Blue40
 import com.example.missingpiece.ui.theme.MissingPieceTheme
+import com.example.missingpiece.ui.theme.Orange10
+import com.example.missingpiece.ui.theme.Orange40
 
 
 @Composable
-fun Settings(onDifficultySelected: (Int) -> Unit, viewModel: GameViewModel,) {
+fun Settings(viewModel: GameViewModel) {
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.White),
+            .background(color = Blue40),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(text = "Difficulty levels", color = Blue10)
+        Text(text = "Difficulty levels",
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 16.sp,
+            color = Color.White)
+
+        val difficulty = viewModel.difficulty.value
 
         val radioOptions = listOf("3X3", "4X4", "5X5")
-        val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
 
-        Column {
+        val gridSize1 = when (difficulty) {
+            3 -> "3X3"
+            4 -> "4X4"
+            5 -> "5X5"
+            else -> "3X3"
+        }
+
+        val (selectedOption, onOptionSelected) = remember { mutableStateOf(gridSize1) }
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+
+        ) {
             radioOptions.forEach { level ->
                 Row(
-                    Modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .selectable(
                             selected = (level == selectedOption),
                             onClick = {
                                 onOptionSelected(level)
-
-                             /*   val gridSize = when (level) {
-                                    "3X3" -> 3
-                                    "4X4" -> 4
-                                    "5X5" -> 5
-                                    else -> 3
-                                }
-                                viewModel.setDifficulty(level.toInt()) */
                             }
                         )
-                        .padding(horizontal = 16.dp)
-                ) {
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment =  Alignment.CenterVertically
+
+                    ) {
                     RadioButton(
                         selected = (level == selectedOption),
-                        onClick = { onOptionSelected(level)
+                        onClick = {
+                            onOptionSelected(level)
                             onOptionSelected(level)
 
                             val gridSize = when (level) {
@@ -72,19 +98,21 @@ fun Settings(onDifficultySelected: (Int) -> Unit, viewModel: GameViewModel,) {
                                 "5X5" -> 5
                                 else -> 3
                             }
-
-                            Log.i("HI", gridSize.toString())
+                            onOptionSelected(level)
                             viewModel.setDifficulty(gridSize)
                         }
                     )
                     Text(
                         text = level,
-                        style = MaterialTheme.typography.bodySmall.merge(),
-                        modifier = Modifier.padding(start = 8.dp)
+                        fontFamily = FontFamily.SansSerif,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 16.sp,
+                        color = Color.White
                     )
                 }
             }
         }
+        Spacer(Modifier.weight(1f))
     }
 }
 

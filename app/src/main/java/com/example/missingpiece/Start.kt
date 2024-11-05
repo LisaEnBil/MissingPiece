@@ -34,6 +34,9 @@ fun Start(
     goToHighScore: () -> Unit,
     goToSettings: () -> Unit,
 ) {
+    val radioOptions = listOf("3X3", "4X4", "5X5")
+
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(

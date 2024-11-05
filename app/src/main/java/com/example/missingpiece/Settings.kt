@@ -51,9 +51,7 @@ fun Settings(viewModel: GameViewModel) {
             color = Color.White)
 
         val difficulty = viewModel.difficulty.value
-
         val radioOptions = listOf("3X3", "4X4", "5X5")
-
         val gridSize1 = when (difficulty) {
             3 -> "3X3"
             4 -> "4X4"
@@ -89,9 +87,6 @@ fun Settings(viewModel: GameViewModel) {
                     RadioButton(
                         selected = (level == selectedOption),
                         onClick = {
-                            onOptionSelected(level)
-                            onOptionSelected(level)
-
                             val gridSize = when (level) {
                                 "3X3" -> 3
                                 "4X4" -> 4
@@ -100,6 +95,7 @@ fun Settings(viewModel: GameViewModel) {
                             }
                             onOptionSelected(level)
                             viewModel.setDifficulty(gridSize)
+                            viewModel.clearSavedGame()
                         }
                     )
                     Text(

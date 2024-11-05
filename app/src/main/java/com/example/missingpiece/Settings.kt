@@ -47,7 +47,7 @@ fun Settings(viewModel: GameViewModel) {
         Text(text = "Difficulty levels",
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 16.sp,
+            fontSize = 20.sp,
             color = Color.White)
 
         val difficulty = viewModel.difficulty.value
@@ -60,19 +60,16 @@ fun Settings(viewModel: GameViewModel) {
         }
 
         val (selectedOption, onOptionSelected) = remember { mutableStateOf(gridSize1) }
-
-        Column(
+        Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .padding(),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment =  Alignment.CenterVertically
 
         ) {
             radioOptions.forEach { level ->
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
                         .selectable(
                             selected = (level == selectedOption),
                             onClick = {
@@ -108,6 +105,14 @@ fun Settings(viewModel: GameViewModel) {
                 }
             }
         }
+
+        Text(text = "INSTRUCTIONS", fontWeight = FontWeight.SemiBold,
+            fontSize = 20.sp,
+            color = Color.White)
+        Text(text = "Intstructions on how to play game, play game by moving one brick at a time. Move the number into numerical fashion.",  fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 16.sp,
+            color = Color.White)
         Spacer(Modifier.weight(1f))
     }
 }

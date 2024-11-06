@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -24,7 +25,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.sp
 import com.example.missingpiece.ui.theme.Blue10
 import com.example.missingpiece.ui.theme.Orange40
 
@@ -41,6 +45,8 @@ fun Game(viewModel: GameViewModel, onBackPressed: () -> Unit) {
     val imageBitmap = ImageBitmap.imageResource(R.drawable.puppies)
 
     val difficulty = viewModel.difficulty.value
+
+    val score = viewModel.score.value
 
     BoxWithConstraints(
         modifier = Modifier
@@ -63,7 +69,11 @@ fun Game(viewModel: GameViewModel, onBackPressed: () -> Unit) {
             ) {
                 DrawPuzzleBoard(halfScreenHeight, viewModel, onBackPressed, difficulty)
             }
-            Text(text = "Game", color = Blue10)
+            Text(text = "$score", color = Blue10,
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 20.sp,
+                )
         }
     }
 }
@@ -81,7 +91,7 @@ fun DrawPuzzleBoard(
         mutableStateOf(viewModel.getSavedGameState() ?: puzzle.generateGrid(difficulty))
     }
 
-    var emptyPosition = remember { mutableStateOf(puzzle.findEmptyPosition(grid.value)) }
+    val emptyPosition = remember { mutableStateOf(puzzle.findEmptyPosition(grid.value)) }
 
     DisposableEffect(Unit) {
         onDispose {
@@ -113,11 +123,14 @@ fun DrawPuzzleBoard(
                             )
                         if (touchedBox != null) {
                             with(puzzle) {
+
                                 val (newGrid, newEmptyPosition) = grid.value.tryMove(
                                     direction,
                                     emptyPosition.value,
                                     touchedBox
-                                )
+                                ){
+                                    viewModel.setHighScore()
+                                }
                                 grid.value = newGrid
                                 emptyPosition.value = newEmptyPosition
                             }

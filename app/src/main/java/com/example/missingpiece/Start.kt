@@ -62,7 +62,6 @@ fun Start(
                     border = BorderStroke(2.dp, color = Orange10),
                     modifier = Modifier.width(width = 250.dp)
                 ) {
-
                     Text("RESUME GAME")
                 }
             }
@@ -70,6 +69,7 @@ fun Start(
             Button(
                 onClick = {
                     viewModel.clearSavedGame()
+                    viewModel.resetHighScore()
                     goToGame()
                 },
                 colors = ButtonDefaults

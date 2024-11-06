@@ -1,5 +1,6 @@
 package com.example.missingpiece
 
+import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Paint
@@ -7,6 +8,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.missingpiece.ui.theme.Blue10
 import kotlin.math.abs
 
@@ -71,13 +73,15 @@ class Puzzle {
         val x = (position.x / cellSize).toInt()
         val y = (position.y / cellSize).toInt()
 
+
         return if (x in 0 until gridSize && y in 0 until gridSize) x to y else null
     }
 
     fun List<List<Int>>.tryMove(
         direction: Direction,
         emptyPosition: Pair<Int, Int>,
-        touchedBox: Pair<Int, Int>
+        touchedBox: Pair<Int, Int>,
+        onSuccessfulMove: () -> Unit
     ): Pair<List<List<Int>>, Pair<Int, Int>> {
         val (emptyX, emptyY) = emptyPosition
         val (touchedX, touchedY) = touchedBox
@@ -85,31 +89,32 @@ class Puzzle {
 
         return when (direction) {
             Direction.UP -> if (touchedX == emptyX && touchedY == emptyY + 1) {
-                // Move the box down if the empty space is directly below it.
                 newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
                 newGrid[touchedY][touchedX] = 0
+                onSuccessfulMove()
                 newGrid to (touchedX to touchedY)
             } else this to emptyPosition
 
             Direction.DOWN -> if (touchedX == emptyX && touchedY == emptyY - 1) {
-                // Move the box up if the empty space is directly above it.
                 newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
                 newGrid[touchedY][touchedX] = 0
+                onSuccessfulMove()
                 newGrid to (touchedX to touchedY)
             } else this to emptyPosition
 
             Direction.LEFT -> if (touchedY == emptyY && touchedX == emptyX + 1) {
-                // Move the box left if the empty space is directly to the left of it.
                 newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
                 newGrid[touchedY][touchedX] = 0
+                onSuccessfulMove()
                 newGrid to (touchedX to touchedY)
             } else this to emptyPosition
 
             Direction.RIGHT -> if (touchedY == emptyY && touchedX == emptyX - 1) {
-                // Move the box right if the empty space is directly to the right of it.
                 newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
                 newGrid[touchedY][touchedX] = 0
+                onSuccessfulMove()
                 newGrid to (touchedX to touchedY)
+
             } else this to emptyPosition
         }
     }

@@ -50,10 +50,10 @@ fun MyAppNavHost(
 
         }
         composable(NavScreen.HighScore.name) {
-            HighScore();
+            HighScore(viewModel = viewModel);
         }
         composable(NavScreen.Settings.name) {
-            Settings( viewModel = viewModel,);
+            Settings( viewModel = viewModel);
         }
     }
 }

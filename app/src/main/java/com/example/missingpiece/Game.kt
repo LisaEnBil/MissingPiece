@@ -130,6 +130,7 @@ fun DrawPuzzleBoard(
                                     touchedBox
                                 ){
                                     viewModel.setHighScore()
+
                                 }
                                 grid.value = newGrid
                                 emptyPosition.value = newEmptyPosition

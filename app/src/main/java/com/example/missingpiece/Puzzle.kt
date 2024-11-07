@@ -32,9 +32,23 @@ class Puzzle {
         val emptyRowFromBottom = grid.size - findEmptyPosition(grid).second
 
         if (grid.size % 2 == 1) {
+
             return inversions % 2 == 0
         }
         return (inversions % 2 == 1) == (emptyRowFromBottom % 2 == 0)
+    }
+
+   private fun isPuzzleSolved(currentState: List<List<Int>>, difficulty: Int): Boolean {
+
+        val goalStateList = (1 until difficulty * difficulty).toList() + 0
+        val goalState = goalStateList.chunked(difficulty)
+
+        if (currentState == goalState) {
+            println("Congratulations! Puzzle solved!")
+        } else {
+            println("Keep trying!")
+        }
+        return currentState == goalState
     }
 
     fun generateGrid(difficulty: Int): List<List<Int>> {
@@ -92,6 +106,7 @@ class Puzzle {
                 newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
                 newGrid[touchedY][touchedX] = 0
                 onSuccessfulMove()
+                isPuzzleSolved(newGrid, 2)
                 newGrid to (touchedX to touchedY)
             } else this to emptyPosition
 
@@ -99,6 +114,7 @@ class Puzzle {
                 newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
                 newGrid[touchedY][touchedX] = 0
                 onSuccessfulMove()
+                isPuzzleSolved(newGrid, 2)
                 newGrid to (touchedX to touchedY)
             } else this to emptyPosition
 
@@ -106,6 +122,7 @@ class Puzzle {
                 newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
                 newGrid[touchedY][touchedX] = 0
                 onSuccessfulMove()
+                isPuzzleSolved(newGrid, 2)
                 newGrid to (touchedX to touchedY)
             } else this to emptyPosition
 
@@ -113,6 +130,8 @@ class Puzzle {
                 newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
                 newGrid[touchedY][touchedX] = 0
                 onSuccessfulMove()
+                Log.i("newGrid", newGrid.toString())
+                isPuzzleSolved(newGrid, 2)
                 newGrid to (touchedX to touchedY)
 
             } else this to emptyPosition

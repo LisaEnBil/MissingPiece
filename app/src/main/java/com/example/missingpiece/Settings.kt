@@ -51,12 +51,13 @@ fun Settings(viewModel: GameViewModel) {
             color = Color.White)
 
         val difficulty = viewModel.difficulty.value
-        val radioOptions = listOf("3X3", "4X4", "5X5")
+        val radioOptions = listOf("2X2","3X3", "4X4", "5X5")
         val gridSize1 = when (difficulty) {
+            2 -> "2X2"
             3 -> "3X3"
             4 -> "4X4"
             5 -> "5X5"
-            else -> "3X3"
+            else -> "2X2"
         }
 
         val (selectedOption, onOptionSelected) = remember { mutableStateOf(gridSize1) }
@@ -85,10 +86,11 @@ fun Settings(viewModel: GameViewModel) {
                         selected = (level == selectedOption),
                         onClick = {
                             val gridSize = when (level) {
+                                "2X2" -> 2
                                 "3X3" -> 3
                                 "4X4" -> 4
                                 "5X5" -> 5
-                                else -> 3
+                                else -> 2
                             }
                             onOptionSelected(level)
                             viewModel.setDifficulty(gridSize)

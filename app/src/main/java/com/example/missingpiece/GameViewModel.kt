@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModel
 
 class GameViewModel() : ViewModel() {
 
-
     private val _difficulty = mutableIntStateOf(2)
     val difficulty: State<Int> = _difficulty
 
@@ -21,8 +20,10 @@ class GameViewModel() : ViewModel() {
     val score: State<Int> = _score
 
     private val _hasOngoingGame = mutableStateOf(false)
-
     val hasOngoingGame: State<Boolean> = _hasOngoingGame
+
+    private val _hasFinishedGame = mutableStateOf(false)
+    val hasFinishedGame: State<Boolean> = _hasFinishedGame
 
     private var savedGameState: List<List<Int>>? = null
 
@@ -67,6 +68,10 @@ class GameViewModel() : ViewModel() {
     }
 
     fun getSavedGameState(): List<List<Int>>? = savedGameState
+
+    fun hasFinishedPuzzle() {
+        _hasOngoingGame.value = false
+    }
 
     fun clearSavedGame() {
 

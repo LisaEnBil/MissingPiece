@@ -38,7 +38,7 @@ class Puzzle {
         return (inversions % 2 == 1) == (emptyRowFromBottom % 2 == 0)
     }
 
-   private fun isPuzzleSolved(currentState: List<List<Int>>, difficulty: Int): Boolean {
+    private fun isPuzzleSolved(currentState: List<List<Int>>, difficulty: Int): Boolean {
 
         val goalStateList = (1 until difficulty * difficulty).toList() + 0
         val goalState = goalStateList.chunked(difficulty)
@@ -69,7 +69,6 @@ class Puzzle {
             abs(dragAmount.y) > abs(dragAmount.x) -> {
                 if (dragAmount.y > 0) Direction.DOWN else Direction.UP
             }
-
             else -> null
         }
     }
@@ -93,9 +92,10 @@ class Puzzle {
 
     fun List<List<Int>>.tryMove(
         direction: Direction,
+        difficulty: Int,
         emptyPosition: Pair<Int, Int>,
         touchedBox: Pair<Int, Int>,
-        onSuccessfulMove: () -> Unit
+        onSuccessfulMove: () -> Unit,
     ): Pair<List<List<Int>>, Pair<Int, Int>> {
         val (emptyX, emptyY) = emptyPosition
         val (touchedX, touchedY) = touchedBox
@@ -106,7 +106,7 @@ class Puzzle {
                 newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
                 newGrid[touchedY][touchedX] = 0
                 onSuccessfulMove()
-                isPuzzleSolved(newGrid, 2)
+                isPuzzleSolved(newGrid, difficulty)
                 newGrid to (touchedX to touchedY)
             } else this to emptyPosition
 
@@ -114,7 +114,7 @@ class Puzzle {
                 newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
                 newGrid[touchedY][touchedX] = 0
                 onSuccessfulMove()
-                isPuzzleSolved(newGrid, 2)
+                isPuzzleSolved(newGrid, difficulty)
                 newGrid to (touchedX to touchedY)
             } else this to emptyPosition
 
@@ -122,7 +122,7 @@ class Puzzle {
                 newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
                 newGrid[touchedY][touchedX] = 0
                 onSuccessfulMove()
-                isPuzzleSolved(newGrid, 2)
+                isPuzzleSolved(newGrid, difficulty)
                 newGrid to (touchedX to touchedY)
             } else this to emptyPosition
 
@@ -131,7 +131,7 @@ class Puzzle {
                 newGrid[touchedY][touchedX] = 0
                 onSuccessfulMove()
                 Log.i("newGrid", newGrid.toString())
-                isPuzzleSolved(newGrid, 2)
+                isPuzzleSolved(newGrid, difficulty)
                 newGrid to (touchedX to touchedY)
 
             } else this to emptyPosition

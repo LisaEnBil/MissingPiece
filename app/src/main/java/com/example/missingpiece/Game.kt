@@ -17,8 +17,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,7 +47,6 @@ fun Game(viewModel: GameViewModel, onBackPressed: () -> Unit) {
     val imageBitmap = ImageBitmap.imageResource(R.drawable.puppies)
 
     val difficulty = viewModel.difficulty.value
-
     val score = viewModel.score.value
 
     BoxWithConstraints(
@@ -54,6 +55,8 @@ fun Game(viewModel: GameViewModel, onBackPressed: () -> Unit) {
             .background(color = Color.Black)
     ) {
         val halfScreenHeight = maxWidth
+
+
 
         Column(
             modifier = Modifier
@@ -126,11 +129,12 @@ fun DrawPuzzleBoard(
 
                                 val (newGrid, newEmptyPosition) = grid.value.tryMove(
                                     direction,
+                                    difficulty,
                                     emptyPosition.value,
-                                    touchedBox
-                                ){
-                                    viewModel.setHighScore()
+                                    touchedBox,
+                                ) {
 
+                                    viewModel.setHighScore()
                                 }
                                 grid.value = newGrid
                                 emptyPosition.value = newEmptyPosition
@@ -154,4 +158,3 @@ fun DrawPuzzleBoard(
         }
     }
 }
-

@@ -92,6 +92,7 @@ class Puzzle {
 
     fun List<List<Int>>.tryMove(
         direction: Direction,
+        viewModel: GameViewModel,
         difficulty: Int,
         emptyPosition: Pair<Int, Int>,
         touchedBox: Pair<Int, Int>,
@@ -101,12 +102,16 @@ class Puzzle {
         val (touchedX, touchedY) = touchedBox
         val newGrid = this.map { it.toMutableList() }
 
+
         return when (direction) {
             Direction.UP -> if (touchedX == emptyX && touchedY == emptyY + 1) {
                 newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
                 newGrid[touchedY][touchedX] = 0
                 onSuccessfulMove()
-                isPuzzleSolved(newGrid, difficulty)
+                val g = isPuzzleSolved(newGrid, difficulty)
+                if (g){
+                    viewModel.hasFinishedPuzzle()
+                }
                 newGrid to (touchedX to touchedY)
             } else this to emptyPosition
 
@@ -114,7 +119,10 @@ class Puzzle {
                 newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
                 newGrid[touchedY][touchedX] = 0
                 onSuccessfulMove()
-                isPuzzleSolved(newGrid, difficulty)
+                val g = isPuzzleSolved(newGrid, difficulty)
+                if (g){
+                    viewModel.hasFinishedPuzzle()
+                }
                 newGrid to (touchedX to touchedY)
             } else this to emptyPosition
 
@@ -122,7 +130,10 @@ class Puzzle {
                 newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
                 newGrid[touchedY][touchedX] = 0
                 onSuccessfulMove()
-                isPuzzleSolved(newGrid, difficulty)
+               isPuzzleSolved(newGrid, difficulty)
+                if (isPuzzleSolved(newGrid, difficulty)){
+                    viewModel.hasFinishedPuzzle()
+                }
                 newGrid to (touchedX to touchedY)
             } else this to emptyPosition
 
@@ -130,8 +141,10 @@ class Puzzle {
                 newGrid[emptyY][emptyX] = newGrid[touchedY][touchedX]
                 newGrid[touchedY][touchedX] = 0
                 onSuccessfulMove()
-                Log.i("newGrid", newGrid.toString())
-                isPuzzleSolved(newGrid, difficulty)
+                val g = isPuzzleSolved(newGrid, difficulty)
+                if (g){
+                    viewModel.hasFinishedPuzzle()
+                }
                 newGrid to (touchedX to touchedY)
 
             } else this to emptyPosition

@@ -45,8 +45,10 @@ fun MyAppNavHost(
             );
         }
         composable(NavScreen.Game.name) {
-            Game(viewModel = viewModel,
-                onBackPressed = { navController.popBackStack() });
+            Game(
+                viewModel = viewModel,
+                onBackPressed = { navController.popBackStack() },
+                goToStart = { navController.navigate(NavScreen.Start.name) });
 
         }
         composable(NavScreen.HighScore.name) {

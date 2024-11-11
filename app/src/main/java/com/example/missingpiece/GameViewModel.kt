@@ -9,6 +9,11 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 
 class GameViewModel() : ViewModel() {
@@ -26,6 +31,21 @@ class GameViewModel() : ViewModel() {
     val hasFinishedGame: State<Boolean> = _hasFinishedGame
 
     private var savedGameState: List<List<Int>>? = null
+
+    private val _isResetComplete = mutableStateOf(false)
+    val isResetComplete: State<Boolean> = _isResetComplete
+
+
+    fun completeReset1() {
+        _isResetComplete.value = true
+        return
+    }
+
+
+    fun completeReset() {
+        _isResetComplete.value = false
+        return
+    }
 
     @Composable
     fun saveHighScore(name: String, score: Int) {
@@ -56,6 +76,14 @@ class GameViewModel() : ViewModel() {
         _score.intValue = 0
     }
 
+    fun resetGame() {
+        _hasOngoingGame.value = false
+        savedGameState = null
+        resetHighScore()
+        _hasFinishedGame.value = false
+        _hasOngoingGame.value = false
+    }
+
     fun getCurrentScore(): Int = _score.intValue
 
     fun setDifficulty(gridSize: Int) {
@@ -70,14 +98,13 @@ class GameViewModel() : ViewModel() {
     fun getSavedGameState(): List<List<Int>>? = savedGameState
 
     fun hasFinishedPuzzle() {
-        _hasOngoingGame.value = false
+        _hasFinishedGame.value = true
+        return
     }
 
     fun clearSavedGame() {
-
+        _isResetComplete.value = true
         _hasOngoingGame.value = false
         savedGameState = null
     }
-
-
 }

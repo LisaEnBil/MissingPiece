@@ -1,6 +1,5 @@
 package com.example.missingpiece
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -23,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.imageResource
@@ -32,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.example.missingpiece.ui.theme.Blue10
+import com.example.missingpiece.ui.theme.Blue40
 import com.example.missingpiece.ui.theme.Orange40
 
 
@@ -43,19 +42,19 @@ enum class Direction {
 }
 
 @Composable
-fun Game(viewModel: GameViewModel, onBackPressed: () -> Unit) {
+fun Game(viewModel: GameViewModel, onBackPressed: () -> Unit, goToStart: () -> Unit) {
     val imageBitmap = ImageBitmap.imageResource(R.drawable.puppies)
 
     val difficulty = viewModel.difficulty.value
     val score = viewModel.score.value
 
+
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.Black)
+            .background(color = Blue40)
     ) {
         val halfScreenHeight = maxWidth
-
 
 
         Column(
@@ -64,6 +63,11 @@ fun Game(viewModel: GameViewModel, onBackPressed: () -> Unit) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+
+            if (viewModel.hasFinishedGame.value){
+                PuzzleCompletedDialog(viewModel, goToStart)
+                viewModel.clearSavedGame()
+            }
             Box(modifier = Modifier
                 .height(halfScreenHeight)
                 .fillMaxWidth(fraction = 1f)
@@ -129,9 +133,11 @@ fun DrawPuzzleBoard(
 
                                 val (newGrid, newEmptyPosition) = grid.value.tryMove(
                                     direction,
+                                    viewModel,
                                     difficulty,
                                     emptyPosition.value,
                                     touchedBox,
+
                                 ) {
 
                                     viewModel.setHighScore()

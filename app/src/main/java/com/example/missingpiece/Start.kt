@@ -1,22 +1,29 @@
 package com.example.missingpiece
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
@@ -34,9 +41,10 @@ fun Start(
     goToHighScore: () -> Unit,
     goToSettings: () -> Unit,
 ) {
-    val radioOptions = listOf("3X3", "4X4", "5X5")
+    val isResetComplete by viewModel.isResetComplete
+    val hasOngoingGame by viewModel.hasOngoingGame
 
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
+    Log.i("Start", isResetComplete.toString())
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -53,74 +61,66 @@ fun Start(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
-            if (viewModel.hasOngoingGame.value) {
-                Button(
+            if (hasOngoingGame && isResetComplete) {
+
+                CustomButton(
+                    text = "RESUME GAME",
                     onClick = {
                         goToGame()
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = Blue10),
-                    border = BorderStroke(2.dp, color = Orange10),
-                    modifier = Modifier.width(width = 250.dp)
-                ) {
-                    Text("RESUME GAME")
-                }
+                    }
+                )
             }
 
-            Button(
+            CustomButton(
+                text = "START GAME",
                 onClick = {
+
                     viewModel.clearSavedGame()
                     viewModel.resetHighScore()
                     goToGame()
-                },
-                colors = ButtonDefaults
-                    .buttonColors(containerColor = Blue10),
-                border = BorderStroke(2.dp, color = Orange10),
-                modifier = Modifier
-                    .width(width = 250.dp)
-            ) {
-                Text(
-                    "START GAME",
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 16.sp
-                )
-            }
-            Button(
-                onClick = { goToHighScore() },
-                colors = ButtonDefaults
-                    .buttonColors(containerColor = Blue10),
-                border = BorderStroke(2.dp, color = Orange10),
-                modifier = Modifier
-                    .width(width = 250.dp)
-            ) {
-                Text(
-                    "HIGH SCORE",
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 16.sp
-                )
-            }
-            Button(
-                onClick = { goToSettings() },
-                colors = ButtonDefaults
-                    .buttonColors(containerColor = Blue10),
-                border = BorderStroke(2.dp, color = Orange10),
-                modifier = Modifier
-                    .width(width = 250.dp)
-            ) {
-                Text(
-                    "SETTINGS",
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 16.sp
-                )
-            }
+                }
+            )
+
+            CustomButton(
+                text = "HIGH SCORE",
+                onClick = {
+                    goToHighScore()
+                }
+            )
+
+            CustomButton(
+                text = "SETTINGS",
+                onClick = {
+                    goToSettings()
+                }
+            )
         }
-
     }
-
 }
 
 
-
+@Composable
+fun CustomButton(
+    text: String,
+    onClick: () -> Unit,
+    borderColor: Color = Orange10,
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
+) {
+    Button(
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(containerColor = Blue10),
+        border = BorderStroke(2.dp, color = borderColor),
+        modifier = modifier
+            .width(250.dp)
+            .height(45.dp)
+            .padding(bottom = 5.dp)
+    ) {
+        Text(
+            text = text,
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 24.sp
+        )
+    }
+}
 

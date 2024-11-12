@@ -78,8 +78,7 @@ class GameViewModel() : ViewModel() {
 
     fun resetGame() {
         _hasOngoingGame.value = false
-        savedGameState = null
-        resetHighScore()
+        _score.intValue = 0
         _hasFinishedGame.value = false
         _hasOngoingGame.value = false
     }

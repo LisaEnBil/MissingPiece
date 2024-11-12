@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,7 +39,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun PuzzleCompletedDialog(viewModel: GameViewModel, goToStart: () -> Unit) {
+fun PuzzleCompletedDialog(viewModel: GameViewModel, goToStart: () -> Unit, goToGame: () -> Unit) {
     var showDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -78,17 +79,33 @@ fun PuzzleCompletedDialog(viewModel: GameViewModel, goToStart: () -> Unit) {
                             textAlign = TextAlign.Center
                         )
                         Spacer(modifier = Modifier.height(24.dp))
-                    }
 
-                    Button(
-                        onClick = {
-                            viewModel.resetGame()
-                            viewModel.clearSavedGame()
-                            viewModel.completeReset()
-                            goToStart()
+                        Row() {
+                            Button(
+                                modifier = Modifier.padding(5.dp),
+                                onClick = {
+                                    viewModel.resetGame()
+                                    viewModel.clearSavedGame()
+                                    viewModel.completeReset()
+                                    goToStart()
+                                }
+                            ) {
+                                Text("Start menu")
+                            }
+                            Button(
+                                modifier = Modifier.padding(5.dp),
+                                onClick = {
+                                    viewModel.resetGame()
+                                    viewModel.clearSavedGame()
+                                    viewModel.completeReset()
+                                    goToGame()
+
+                                }
+                            ) {
+                                Text("Play again")
+                            }
+
                         }
-                    ) {
-                        Text("Dismiss")
                     }
                 }
             }

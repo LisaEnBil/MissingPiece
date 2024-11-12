@@ -15,11 +15,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
@@ -42,7 +39,12 @@ enum class Direction {
 }
 
 @Composable
-fun Game(viewModel: GameViewModel, onBackPressed: () -> Unit, goToStart: () -> Unit) {
+fun Game(
+    viewModel: GameViewModel,
+    onBackPressed: () -> Unit,
+    goToStart: () -> Unit,
+    goToGame: () -> Unit,
+) {
     val imageBitmap = ImageBitmap.imageResource(R.drawable.puppies)
 
     val difficulty = viewModel.difficulty.value
@@ -65,7 +67,7 @@ fun Game(viewModel: GameViewModel, onBackPressed: () -> Unit, goToStart: () -> U
         ) {
 
             if (viewModel.hasFinishedGame.value){
-                PuzzleCompletedDialog(viewModel, goToStart)
+                PuzzleCompletedDialog(viewModel, goToStart, goToGame)
                 viewModel.clearSavedGame()
             }
             Box(modifier = Modifier

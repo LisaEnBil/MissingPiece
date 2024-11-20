@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -34,6 +35,7 @@ fun MyAppNavHost(
     viewModel: GameViewModel,
     navController: NavHostController = rememberNavController(),
 ) {
+    val context = LocalContext.current
 
     NavHost(navController = navController, startDestination = NavScreen.Start.name) {
         composable(NavScreen.Start.name) {
@@ -52,7 +54,7 @@ fun MyAppNavHost(
                 goToStart = { navController.navigate(NavScreen.Start.name) });
         }
         composable(NavScreen.HighScore.name) {
-            HighScore(viewModel = viewModel);
+            HighScore(viewModel = viewModel, context);
         }
         composable(NavScreen.Settings.name) {
             Settings( viewModel = viewModel);

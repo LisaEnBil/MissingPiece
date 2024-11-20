@@ -68,7 +68,6 @@ fun Game(
 
             if (viewModel.hasFinishedGame.value){
                 PuzzleCompletedDialog(viewModel, goToStart, goToGame)
-                viewModel.clearSavedGame()
             }
             Box(modifier = Modifier
                 .height(halfScreenHeight)

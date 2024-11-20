@@ -67,7 +67,9 @@ fun Start(
                     text = "RESUME GAME",
                     onClick = {
                         goToGame()
-                    }
+                    },
+                    newWidth =  250,
+                    newFontSize = 24
                 )
             }
 
@@ -78,21 +80,27 @@ fun Start(
                     viewModel.clearSavedGame()
                     viewModel.resetHighScore()
                     goToGame()
-                }
+                },
+                newWidth =  250,
+                newFontSize = 24
             )
 
             CustomButton(
                 text = "HIGH SCORE",
                 onClick = {
                     goToHighScore()
-                }
+                },
+                newWidth =  250,
+                newFontSize = 24
             )
 
             CustomButton(
                 text = "SETTINGS",
                 onClick = {
                     goToSettings()
-                }
+                },
+                newWidth =  250,
+                newFontSize = 24
             )
         }
     }
@@ -104,14 +112,16 @@ fun CustomButton(
     text: String,
     onClick: () -> Unit,
     borderColor: Color = Orange10,
-    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
+    newWidth:  Int,
+    newFontSize: Int
 ) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(containerColor = Blue10),
         border = BorderStroke(2.dp, color = borderColor),
         modifier = modifier
-            .width(250.dp)
+            .width(newWidth.dp)
             .height(45.dp)
             .padding(bottom = 5.dp)
     ) {
@@ -119,7 +129,7 @@ fun CustomButton(
             text = text,
             fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 24.sp
+            fontSize = newFontSize.sp
         )
     }
 }

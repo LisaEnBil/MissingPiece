@@ -85,7 +85,7 @@ fun PuzzleCompletedDialog(
                             textAlign = TextAlign.Center
                         )
                         Spacer(modifier = Modifier.height(24.dp))
-                        
+
                         TextField(value = text, onValueChange = {text = it})
 
                         Spacer(modifier = Modifier.height(24.dp))

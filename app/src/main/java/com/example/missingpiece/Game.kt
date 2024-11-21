@@ -44,7 +44,6 @@ fun Game(
     hsViewModel: HighScoreViewModel,
     onBackPressed: () -> Unit,
     goToStart: () -> Unit,
-    goToGame: () -> Unit,
 ) {
     val imageBitmap = ImageBitmap.imageResource(R.drawable.puppies)
 
@@ -68,7 +67,7 @@ fun Game(
         ) {
 
             if (viewModel.hasFinishedGame.value){
-                PuzzleCompletedDialog(viewModel, hsViewModel, goToStart, goToGame, score, difficulty)
+                PuzzleCompletedDialog(viewModel, hsViewModel, goToStart, score, difficulty)
             }
             Box(modifier = Modifier
                 .height(halfScreenHeight)

@@ -60,7 +60,6 @@ fun MyAppNavHost(
             Game(
                 viewModel = viewModel,
                 hsViewModel = hsViewModel,
-                goToGame = { navController.navigate(NavScreen.Game.name) },
                 onBackPressed = { navController.popBackStack() },
                 goToStart = { navController.navigate(NavScreen.Start.name) });
         }

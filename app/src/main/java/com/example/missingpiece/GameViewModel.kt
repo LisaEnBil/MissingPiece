@@ -35,37 +35,9 @@ class GameViewModel() : ViewModel() {
     private val _isResetComplete = mutableStateOf(false)
     val isResetComplete: State<Boolean> = _isResetComplete
 
-
-    fun completeReset1() {
-        _isResetComplete.value = true
-        return
-    }
-
-
     fun completeReset() {
         _isResetComplete.value = false
         return
-    }
-
-    @Composable
-    fun saveHighScore(name: String, score: Int) {
-        val context = LocalContext.current
-        val sharedPreferences = context.getSharedPreferences("HighScores", Context.MODE_PRIVATE)
-
-        with(sharedPreferences.edit()) {
-            putInt(name, score)
-            apply()
-        }
-    }
-    @Composable
-    fun getHighScores(): List<Pair<String, Int>> {
-        val context = LocalContext.current
-
-        val sharedPreferences = context.getSharedPreferences("HighScores", Context.MODE_PRIVATE)
-
-        return sharedPreferences.all.map {
-            Pair(it.key, it.value as Int)
-        }.sortedByDescending { it.second }
     }
 
     fun setHighScore() {
@@ -82,8 +54,6 @@ class GameViewModel() : ViewModel() {
         _hasFinishedGame.value = false
         _hasOngoingGame.value = false
     }
-
-    fun getCurrentScore(): Int = _score.intValue
 
     fun setDifficulty(gridSize: Int) {
         _difficulty.intValue = gridSize

@@ -108,7 +108,7 @@ fun HighScore(hsViewModel: HighScoreViewModel) {
                         items(10) { index ->
                             Row(
                                 modifier = Modifier
-                                    .padding(15.dp),
+                                    .padding(10.dp),
                             ) {
                                 Text(
                                     text = "${index + 1}. ",

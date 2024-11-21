@@ -41,6 +41,7 @@ enum class Direction {
 @Composable
 fun Game(
     viewModel: GameViewModel,
+    hsViewModel: HighScoreViewModel,
     onBackPressed: () -> Unit,
     goToStart: () -> Unit,
     goToGame: () -> Unit,
@@ -67,7 +68,7 @@ fun Game(
         ) {
 
             if (viewModel.hasFinishedGame.value){
-                PuzzleCompletedDialog(viewModel, goToStart, goToGame)
+                PuzzleCompletedDialog(viewModel, hsViewModel, goToStart, goToGame, score, difficulty)
             }
             Box(modifier = Modifier
                 .height(halfScreenHeight)

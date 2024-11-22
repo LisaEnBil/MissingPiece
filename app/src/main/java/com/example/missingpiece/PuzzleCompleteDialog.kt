@@ -2,6 +2,7 @@ package com.example.missingpiece
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,9 +28,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.view.ViewCompat.FocusDirection
 
 
 @Composable
@@ -39,8 +52,10 @@ fun PuzzleCompletedDialog(
     difficulty: Int
 ) {
     var showDialog by remember { mutableStateOf(false) }
+    var text by remember { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
 
-    var text by remember { mutableStateOf("")}
 
     LaunchedEffect(Unit) {
         showDialog = true
@@ -86,30 +101,52 @@ fun PuzzleCompletedDialog(
                         )
                         Spacer(modifier = Modifier.height(24.dp))
 
-                        TextField(value = text, onValueChange = {text = it})
-
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        Row() {
-                            CustomButton(
-                                text = "START",
-                                modifier = Modifier.padding(5.dp),
-                                onClick = {
-                                    hsViewModel.addHighScore(text, score, difficulty)
-                                    viewModel.resetGame()
-                                    viewModel.clearSavedGame()
-                                    viewModel.completeReset()
-                                    goToStart()
+                        TextField(
+                            value = text, onValueChange = { text = it },
+                            modifier = Modifier
+                                .onKeyEvent { keyEvent ->
+                                    if (keyEvent.key == Key.Enter && keyEvent.type == KeyEventType.KeyUp) {
+                                        keyboardController?.hide()
+                                        focusManager.clearFocus()
+                                        true
+                                    } else {
+                                        false
+                                    }
                                 },
-                                newWidth = 120,
-                                newFontSize = 18
+                            keyboardOptions = KeyboardOptions(
+                                imeAction = ImeAction.Done
+                            ),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    keyboardController?.hide()
+                                    focusManager.clearFocus()
+                                }
                             )
-                        }
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Row() {
+                        CustomButton(
+                            text = "START",
+                            modifier = Modifier.padding(5.dp),
+                            onClick = {
+                                hsViewModel.addHighScore(text, score, difficulty)
+                                viewModel.resetGame()
+                                viewModel.clearSavedGame()
+                                viewModel.completeReset()
+                                goToStart()
+                            },
+                            newWidth = 120,
+                            newFontSize = 18
+                        )
                     }
                 }
             }
         }
     }
-
 }
+
+
 

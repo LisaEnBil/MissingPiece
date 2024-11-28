@@ -102,7 +102,12 @@ fun PuzzleCompletedDialog(
                         Spacer(modifier = Modifier.height(24.dp))
 
                         TextField(
-                            value = text, onValueChange = { text = it },
+                            value = text,
+                            onValueChange = { newText ->
+                                if (newText.length <= 20) {
+                                    text = newText
+                                }
+                            },
                             modifier = Modifier
                                 .onKeyEvent { keyEvent ->
                                     if (keyEvent.key == Key.Enter && keyEvent.type == KeyEventType.KeyUp) {

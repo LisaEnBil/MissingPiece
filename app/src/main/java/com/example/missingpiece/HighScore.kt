@@ -70,7 +70,7 @@ fun HighScore(hsViewModel: HighScoreViewModel) {
                 ) {
 
                 Text(
-                    text = "HIGH SCORE", fontFamily = FontFamily.SansSerif,
+                    text = "HIGH SCORE", fontFamily = FontFamily.Serif,
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 30.sp,

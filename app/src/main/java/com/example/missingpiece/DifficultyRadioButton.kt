@@ -47,7 +47,10 @@ fun DifficultySelector(viewModel: GameViewModel) {
             difficulties.forEach { difficulty ->
                 CustomButton(
                     text = "${difficulty}x$difficulty",
-                    onClick = { viewModel.setDifficulty(difficulty) },
+                    onClick = {
+                        viewModel.setDifficulty(difficulty)
+                        viewModel.clearSavedGame()
+                    },
                     newWidth = 60,
                     newFontSize = 16,
                     borderColor = if (selectedDifficulty == difficulty) Color.White else Orange10

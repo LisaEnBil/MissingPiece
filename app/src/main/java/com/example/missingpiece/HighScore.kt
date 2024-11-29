@@ -70,7 +70,8 @@ fun HighScore(hsViewModel: HighScoreViewModel) {
                 ) {
 
                 Text(
-                    text = "HIGH SCORE", fontFamily = FontFamily.Serif,
+                    text = "HIGH SCORE",
+                    fontFamily = FontFamily.Serif,
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 30.sp,
@@ -82,7 +83,8 @@ fun HighScore(hsViewModel: HighScoreViewModel) {
                         .padding(15.dp)
                 ) {
                     Text(
-                        text = "Name", fontFamily = FontFamily.SansSerif,
+                        text = "Name",
+                        fontFamily = FontFamily.SansSerif,
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 22.sp,

@@ -24,6 +24,9 @@ class GameViewModel() : ViewModel() {
     private val _score = mutableIntStateOf(0)
     val score: State<Int> = _score
 
+    private val _isShowingDifficultyLevels = mutableStateOf(false)
+    val isShowingDifficultyLevels: State<Boolean> = _isShowingDifficultyLevels
+
     private val _hasOngoingGame = mutableStateOf(false)
     val hasOngoingGame: State<Boolean> = _hasOngoingGame
 
@@ -53,6 +56,11 @@ class GameViewModel() : ViewModel() {
         _score.intValue = 0
         _hasFinishedGame.value = false
         _hasOngoingGame.value = false
+    }
+
+    fun setIsShowingDifficultyLevels() {
+        _isShowingDifficultyLevels.value = !_isShowingDifficultyLevels.value
+        return
     }
 
     fun setDifficulty(gridSize: Int) {

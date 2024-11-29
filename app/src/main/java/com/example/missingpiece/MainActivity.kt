@@ -49,7 +49,6 @@ fun MyAppNavHost(
             Start(
                 goToGame = { navController.navigate(NavScreen.Game.name) },
                 goToHighScore = { navController.navigate(NavScreen.HighScore.name) },
-                goToSettings = { navController.navigate(NavScreen.Settings.name) },
                 viewModel = viewModel,
             );
         }
@@ -62,9 +61,6 @@ fun MyAppNavHost(
         }
         composable(NavScreen.HighScore.name) {
             HighScore(hsViewModel = hsViewModel);
-        }
-        composable(NavScreen.Settings.name) {
-            Settings( viewModel = viewModel);
         }
     }
 }

@@ -7,6 +7,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,16 +30,15 @@ import androidx.compose.ui.unit.sp
 import com.example.missingpiece.ui.theme.Blue10
 import com.example.missingpiece.ui.theme.Orange10
 
-
 @Composable
 fun Start(
     viewModel: GameViewModel,
     goToGame: () -> Unit,
     goToHighScore: () -> Unit,
-    goToSettings: () -> Unit,
 ) {
     val isResetComplete by viewModel.isResetComplete
     val hasOngoingGame by viewModel.hasOngoingGame
+    val isShowingDifficultyLevels by viewModel.isShowingDifficultyLevels
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -48,20 +49,15 @@ fun Start(
         )
 
         Column(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-
             if (hasOngoingGame && isResetComplete) {
-
                 CustomButton(
                     text = "RESUME GAME",
-                    onClick = {
-                        goToGame()
-                    },
-                    newWidth =  250,
+                    onClick = { goToGame() },
+                    newWidth = 250,
                     newFontSize = 24
                 )
             }
@@ -69,32 +65,38 @@ fun Start(
             CustomButton(
                 text = "START GAME",
                 onClick = {
-
                     viewModel.clearSavedGame()
                     viewModel.resetHighScore()
                     goToGame()
                 },
-                newWidth =  250,
+                newWidth = 250,
                 newFontSize = 24
             )
 
             CustomButton(
                 text = "HIGH SCORE",
-                onClick = {
-                    goToHighScore()
-                },
-                newWidth =  250,
+                onClick = { goToHighScore() },
+                newWidth = 250,
                 newFontSize = 24
             )
 
             CustomButton(
-                text = "SETTINGS",
-                onClick = {
-                    goToSettings()
-                },
-                newWidth =  250,
+                text = "DIFFICULTY",
+                onClick = { viewModel.setIsShowingDifficultyLevels() },
+                newWidth = 250,
                 newFontSize = 24
             )
+        }
+
+        if (isShowingDifficultyLevels) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 250.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                DifficultySelector(viewModel)
+            }
         }
     }
 }
@@ -120,10 +122,11 @@ fun CustomButton(
     ) {
         Text(
             text = text,
-            fontFamily = FontFamily.SansSerif,
+            fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.SemiBold,
             fontSize = newFontSize.sp
         )
     }
 }
+
 

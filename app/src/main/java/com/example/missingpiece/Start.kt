@@ -122,7 +122,7 @@ fun CustomButton(
     ) {
         Text(
             text = text,
-            fontFamily = FontFamily.Serif,
+            fontFamily = FontFamily.SansSerif,
             fontWeight = FontWeight.SemiBold,
             fontSize = newFontSize.sp
         )

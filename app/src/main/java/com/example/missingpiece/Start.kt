@@ -40,7 +40,8 @@ fun Start(
     val hasOngoingGame by viewModel.hasOngoingGame
     val isShowingDifficultyLevels by viewModel.isShowingDifficultyLevels
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter) {
         Image(
             painter = painterResource(id = R.drawable.background),
             contentDescription = "background",
@@ -49,10 +50,10 @@ fun Start(
         )
 
         Column(
-            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Spacer(modifier = Modifier.height(200.dp))
             if (hasOngoingGame && isResetComplete) {
                 CustomButton(
                     text = "RESUME GAME",
@@ -62,42 +63,65 @@ fun Start(
                 )
             }
 
-            CustomButton(
-                text = "START GAME",
-                onClick = {
-                    viewModel.clearSavedGame()
-                    viewModel.resetHighScore()
-                    goToGame()
-                },
-                newWidth = 250,
-                newFontSize = 24
-            )
-
-            CustomButton(
-                text = "HIGH SCORE",
-                onClick = { goToHighScore() },
-                newWidth = 250,
-                newFontSize = 24
-            )
-
-            CustomButton(
-                text = "DIFFICULTY",
-                onClick = { viewModel.setIsShowingDifficultyLevels() },
-                newWidth = 250,
-                newFontSize = 24
-            )
-        }
-
-        if (isShowingDifficultyLevels) {
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 250.dp),
+                    .padding(top = 25.dp),
                 contentAlignment = Alignment.Center
             ) {
-                DifficultySelector(viewModel)
+                CustomButton(
+                    text = "START GAME",
+                    onClick = {
+                        viewModel.clearSavedGame()
+                        viewModel.resetHighScore()
+                        goToGame()
+                    },
+                    newWidth = 250,
+                    newFontSize = 24
+                )
             }
+
+            Box(
+                modifier = Modifier
+                    .padding(top = 25.dp),
+                contentAlignment = Alignment.Center
+            ) {
+
+                CustomButton(
+                    text = "HIGH SCORE",
+                    onClick = { goToHighScore() },
+                    newWidth = 250,
+                    newFontSize = 24
+                )
+            }
+
+            Box(
+                modifier = Modifier
+                    .padding(top = 25.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                CustomButton(
+                    text = "DIFFICULTY",
+                    onClick = { viewModel.setIsShowingDifficultyLevels() },
+                    newWidth = 250,
+                    newFontSize = 24
+                )
+            }
+            Box(   modifier = Modifier.height(100.dp),
+                contentAlignment = Alignment.Center) {
+
+                if (isShowingDifficultyLevels) {
+
+                    Box(
+                        modifier = Modifier,
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        DifficultySelector(viewModel)
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(200.dp))
         }
+
     }
 }
 
@@ -108,7 +132,7 @@ fun CustomButton(
     onClick: () -> Unit,
     borderColor: Color = Orange10,
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
-    newWidth:  Int,
+    newWidth: Int,
     newFontSize: Int
 ) {
     Button(

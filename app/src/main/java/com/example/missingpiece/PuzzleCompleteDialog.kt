@@ -101,10 +101,7 @@ fun PuzzleCompletedDialog(
                             newScore.toString(),
                             textAlign = TextAlign.Center
                         )
-                        Text(
-                            viewModel.score.value.toString(),
-                            textAlign = TextAlign.Center
-                        )
+                  
                         Spacer(modifier = Modifier.height(24.dp))
 
                         TextField(

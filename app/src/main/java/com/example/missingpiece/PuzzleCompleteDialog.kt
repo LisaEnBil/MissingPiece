@@ -144,6 +144,7 @@ fun PuzzleCompletedDialog(
                                 goToStart()
                             },
                             newWidth = 120,
+                            newHeight = 65,
                             newFontSize = 18
                         )
                     }

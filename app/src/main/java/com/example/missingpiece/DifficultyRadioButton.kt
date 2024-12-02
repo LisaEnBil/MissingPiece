@@ -52,6 +52,7 @@ fun DifficultySelector(viewModel: GameViewModel) {
                         viewModel.clearSavedGame()
                     },
                     newWidth = 60,
+                    newHeight = 45,
                     newFontSize = 16,
                     borderColor = if (selectedDifficulty == difficulty) Color.White else Orange10
                 )

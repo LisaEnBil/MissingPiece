@@ -59,7 +59,8 @@ fun Start(
                     text = "RESUME GAME",
                     onClick = { goToGame() },
                     newWidth = 250,
-                    newFontSize = 24
+                    newHeight = 65,
+                    newFontSize = 28
                 )
             }
 
@@ -76,7 +77,8 @@ fun Start(
                         goToGame()
                     },
                     newWidth = 250,
-                    newFontSize = 24
+                    newHeight = 65,
+                    newFontSize = 28
                 )
             }
 
@@ -90,7 +92,8 @@ fun Start(
                     text = "HIGH SCORE",
                     onClick = { goToHighScore() },
                     newWidth = 250,
-                    newFontSize = 24
+                    newHeight = 65,
+                    newFontSize = 28
                 )
             }
 
@@ -103,7 +106,8 @@ fun Start(
                     text = "DIFFICULTY",
                     onClick = { viewModel.setIsShowingDifficultyLevels() },
                     newWidth = 250,
-                    newFontSize = 24
+                    newHeight = 65,
+                    newFontSize = 28
                 )
             }
             Box(   modifier = Modifier.height(100.dp),
@@ -119,38 +123,8 @@ fun Start(
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(200.dp))
+            Spacer(modifier = Modifier.height(100.dp))
         }
 
     }
 }
-
-
-@Composable
-fun CustomButton(
-    text: String,
-    onClick: () -> Unit,
-    borderColor: Color = Orange10,
-    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
-    newWidth: Int,
-    newFontSize: Int
-) {
-    Button(
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(containerColor = Blue10),
-        border = BorderStroke(2.dp, color = borderColor),
-        modifier = modifier
-            .width(newWidth.dp)
-            .height(45.dp)
-            .padding(bottom = 5.dp)
-    ) {
-        Text(
-            text = text,
-            fontFamily = FontFamily.SansSerif,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = newFontSize.sp
-        )
-    }
-}
-
-

@@ -56,6 +56,7 @@ fun PuzzleCompletedDialog(
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    val newScore = calculatePoints(difficulty, score)
 
     LaunchedEffect(Unit) {
         showDialog = true
@@ -95,6 +96,11 @@ fun PuzzleCompletedDialog(
                         )
                         Spacer(modifier = Modifier.height(24.dp))
 
+
+                        Text(
+                            newScore.toString(),
+                            textAlign = TextAlign.Center
+                        )
                         Text(
                             viewModel.score.value.toString(),
                             textAlign = TextAlign.Center
@@ -137,7 +143,7 @@ fun PuzzleCompletedDialog(
                             text = "START",
                             modifier = Modifier.padding(5.dp),
                             onClick = {
-                                hsViewModel.addHighScore(text, score, difficulty)
+                                hsViewModel.addHighScore(text, newScore, difficulty)
                                 viewModel.resetGame()
                                 viewModel.clearSavedGame()
                                 viewModel.completeReset()
@@ -154,5 +160,18 @@ fun PuzzleCompletedDialog(
     }
 }
 
+fun calculatePoints(difficulty: Int, moves: Int): Int {
+    val basePoints = when (difficulty) {
+        2 -> 500
+        3 -> 1000
+        4 -> 2000
+        5 -> 3000
+        else -> 0
+    }
 
+    val minMoves = (difficulty * difficulty) - 1
+    val movePenalty = maxOf(0, moves - minMoves) * 10
+
+    return maxOf(0, basePoints - movePenalty)
+}
 

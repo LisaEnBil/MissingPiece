@@ -28,7 +28,7 @@ interface UserDao {
     @Query("SELECT * FROM user")
     fun getAll(): List<User>
 
-    @Query("SELECT * FROM user ORDER BY score ASC LIMIT 10")
+    @Query("SELECT * FROM user ORDER BY score DESC LIMIT 10")
     fun getTopTenUsers(): List<User>
 
     @Insert

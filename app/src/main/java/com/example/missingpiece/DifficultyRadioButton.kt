@@ -50,6 +50,8 @@ fun DifficultySelector(viewModel: GameViewModel) {
                     onClick = {
                         viewModel.setDifficulty(difficulty)
                         viewModel.clearSavedGame()
+                        viewModel.resetGame()
+                        viewModel.completeReset()
                     },
                     newWidth = 60,
                     newHeight = 45,

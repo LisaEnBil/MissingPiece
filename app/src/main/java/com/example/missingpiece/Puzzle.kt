@@ -86,7 +86,6 @@ class Puzzle {
         val x = (position.x / cellSize).toInt()
         val y = (position.y / cellSize).toInt()
 
-
         return if (x in 0 until gridSize && y in 0 until gridSize) x to y else null
     }
 
@@ -167,7 +166,7 @@ class Puzzle {
         drawIntoCanvas { canvas ->
             val paint = Paint().asFrameworkPaint().apply {
                 color = android.graphics.Color.WHITE
-                textSize = 24.sp.toPx()
+                textSize = 36.sp.toPx()
                 textAlign = android.graphics.Paint.Align.CENTER
             }
             canvas.nativeCanvas.drawText(

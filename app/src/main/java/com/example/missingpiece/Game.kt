@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,10 +27,11 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.missingpiece.ui.theme.Blue10
 import com.example.missingpiece.ui.theme.Blue40
-import com.example.missingpiece.ui.theme.Orange40
+import com.example.missingpiece.ui.theme.Orange10
+import com.example.missingpiece.ui.theme.Orange20
 
 
 enum class Direction {
@@ -50,38 +53,58 @@ fun Game(
     val difficulty = viewModel.difficulty.value
     val score = viewModel.score.value
 
-
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Blue40)
     ) {
-        val halfScreenHeight = maxWidth
+        val screenWidth = maxWidth
+        val screenHeight = maxHeight
+        val isLandscape = screenWidth > screenHeight
 
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-
-            if (viewModel.hasFinishedGame.value){
-                PuzzleCompletedDialog(viewModel, hsViewModel, goToStart, score, difficulty)
-            }
-            Box(modifier = Modifier
-                .height(halfScreenHeight)
-                .fillMaxWidth(fraction = 1f)
-                .pointerInput(Unit) {
+        if (isLandscape) {
+            Row {
+                if (viewModel.hasFinishedGame.value){
+                    PuzzleCompletedDialog(viewModel, hsViewModel, goToStart, score, difficulty)
                 }
-            ) {
-                DrawPuzzleBoard(halfScreenHeight, viewModel, onBackPressed, difficulty)
+                Box(modifier = Modifier.weight(0.7f),
+                    contentAlignment = Alignment.Center) {
+
+                    DrawPuzzleBoard(screenHeight, viewModel, onBackPressed, difficulty)
+                }
+                Column(modifier = Modifier.weight(0.3f)) {
+                    Text(text = "SLIDES: $score", color = Orange10,
+                        fontFamily = FontFamily.SansSerif,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 20.sp)
+                }
             }
-            Text(text = "$score", color = Blue10,
-                fontFamily = FontFamily.SansSerif,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 20.sp,
+        } else {
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+
+                if (viewModel.hasFinishedGame.value){
+                    PuzzleCompletedDialog(viewModel, hsViewModel, goToStart, score, difficulty)
+                }
+                Box(modifier = Modifier
+                    .height(screenWidth)
+                    .fillMaxWidth(fraction = 1f)
+                    .pointerInput(Unit) {
+                    }
+                ) {
+                    DrawPuzzleBoard(screenWidth, viewModel, onBackPressed, difficulty)
+                }
+                Text(text = "SLIDES: $score", color = Orange10,
+                    fontFamily = FontFamily.SansSerif,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 20.sp,
                 )
+            }
         }
     }
 }
@@ -98,7 +121,7 @@ fun DrawPuzzleBoard(
     val grid = remember {
         mutableStateOf(viewModel.getSavedGameState() ?: puzzle.generateGrid(difficulty))
     }
-
+    
     val emptyPosition = remember { mutableStateOf(puzzle.findEmptyPosition(grid.value)) }
 
     DisposableEffect(Unit) {
@@ -114,8 +137,9 @@ fun DrawPuzzleBoard(
     val difficultyInt = difficulty * 1f
 
     Canvas(modifier = Modifier
-        .background(color = Orange40)
-        .size(screenHeight)
+        .background(color = Orange20)
+        .padding(10.dp)
+        .size(screenHeight - 20.dp)
         .pointerInput(Unit) {
             detectDragGestures(
                 onDragEnd = {},
@@ -139,7 +163,7 @@ fun DrawPuzzleBoard(
                                     emptyPosition.value,
                                     touchedBox,
 
-                                ) {
+                                    ) {
 
                                     viewModel.setHighScore()
                                 }
@@ -151,14 +175,23 @@ fun DrawPuzzleBoard(
                 }
             )
         }) {
-        val cellSize = size.width / difficulty
+        val screenWidth = size.width
+        val newScreen = screenHeight.toPx() * 1f
+        val isLandscape = screenWidth > newScreen
 
         grid.value.forEachIndexed { y, row ->
             row.forEachIndexed { x, number ->
 
                 if (number != 0) {
                     with(puzzle) {
-                        drawBoxWithNumber(number, x, y, cellSize)
+                        if (isLandscape){
+                            val cellSize = newScreen / difficulty
+                            drawBoxWithNumber(number, x, y, cellSize)
+                        }else{
+                            val cellSize = size.width / difficulty
+                            drawBoxWithNumber(number, x, y, cellSize)
+                        }
+
                     }
                 }
             }

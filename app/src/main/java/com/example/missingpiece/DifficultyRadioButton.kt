@@ -46,7 +46,7 @@ fun DifficultySelector(viewModel: GameViewModel) {
         ) {
             difficulties.forEach { difficulty ->
                 CustomButton(
-                    text = "${difficulty}x$difficulty",
+                    text = "${difficulty}",
                     onClick = {
                         viewModel.setDifficulty(difficulty)
                         viewModel.clearSavedGame()

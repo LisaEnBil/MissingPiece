@@ -47,7 +47,7 @@ fun HighScore(hsViewModel: HighScoreViewModel) {
         Image(
             painter = painterResource(id = R.drawable.background),
             contentDescription = "background",
-            contentScale = ContentScale.FillBounds,
+            contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
 

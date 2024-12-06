@@ -3,11 +3,13 @@ package com.example.missingpiece
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -79,7 +81,8 @@ fun PuzzleCompletedDialog(
                     modifier = Modifier
                         .width(300.dp)
                         .wrapContentHeight(),
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(16.dp),
+
                 ) {
                     Column(
                         modifier = Modifier.padding(24.dp),
@@ -99,10 +102,10 @@ fun PuzzleCompletedDialog(
 
 
                         Text(
-                            newScore.toString(),
+                            "${stringResource(R.string.score)}: " + newScore.toString(),
                             textAlign = TextAlign.Center
                         )
-                  
+
                         Spacer(modifier = Modifier.height(24.dp))
 
                         TextField(
@@ -136,7 +139,11 @@ fun PuzzleCompletedDialog(
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    Row() {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         CustomButton(
                             text = stringResource(R.string.start),
                             modifier = Modifier.padding(5.dp),

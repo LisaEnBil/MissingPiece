@@ -10,4 +10,5 @@
     <string name="start">START</string>
     <string name="puzzle_completed">Pusslet avklarat!</string>
     <string name="puzzle_solved_sentence">Grattis! Du har klarat pusslet.</string>
+    <string name="moves">DRAG</string>
 </resources>

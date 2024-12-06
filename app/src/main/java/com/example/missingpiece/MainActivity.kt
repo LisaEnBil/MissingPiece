@@ -15,8 +15,7 @@ import androidx.navigation.compose.rememberNavController
 enum class NavScreen() {
     Start,
     HighScore,
-    Game,
-    Settings
+    Game
 }
 
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MissingPiece</string>
+    <string name="difficulty">SPELLÄGE</string>
+    <string name="high_score">HÖGSTA POÄNG</string>
+    <string name="select_difficulty">Välj Svårighetsgrad</string>
+    <string name="name">Namn</string>
+    <string name="score">Poäng</string>
+    <string name="resume_game">ÅTERUPTA</string>
+    <string name="start">START</string>
+    <string name="puzzle_completed">Pusslet avklarat!</string>
+    <string name="puzzle_solved_sentence">Grattis! Du har klarat pusslet.</string>
+</resources>

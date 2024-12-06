@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 
@@ -94,9 +95,10 @@ fun PortraitLayout(
             Spacer(modifier = Modifier.height(200.dp))
             if (hasOngoingGame && isResetComplete) {
                 CustomButton(
-                    text = "RESUME GAME",
+
+                    text = stringResource(R.string.resume_game),
                     onClick = { goToGame() },
-                    newWidth = 250,
+                    newWidth = 280,
                     newHeight = 65,
                     newFontSize = 28
                 )
@@ -108,13 +110,13 @@ fun PortraitLayout(
                 contentAlignment = Alignment.Center
             ) {
                 CustomButton(
-                    text = "START GAME",
+                    text = stringResource(R.string.start),
                     onClick = {
                         viewModel.clearSavedGame()
                         viewModel.resetHighScore()
                         goToGame()
                     },
-                    newWidth = 250,
+                    newWidth = 280,
                     newHeight = 65,
                     newFontSize = 28
                 )
@@ -127,9 +129,9 @@ fun PortraitLayout(
             ) {
 
                 CustomButton(
-                    text = "HIGH SCORE",
+                    text = stringResource(R.string.high_score),
                     onClick = { goToHighScore() },
-                    newWidth = 250,
+                    newWidth = 280,
                     newHeight = 65,
                     newFontSize = 28
                 )
@@ -141,9 +143,9 @@ fun PortraitLayout(
                 contentAlignment = Alignment.Center
             ) {
                 CustomButton(
-                    text = "DIFFICULTY",
+                    text = stringResource(R.string.difficulty),
                     onClick = { viewModel.setIsShowingDifficultyLevels() },
-                    newWidth = 250,
+                    newWidth = 280,
                     newHeight = 65,
                     newFontSize = 28
                 )
@@ -187,7 +189,7 @@ fun LandscapeLayout(
         ) {
             if (hasOngoingGame && isResetComplete) {
                 CustomButton(
-                    text = "RESUME GAME",
+                    text = stringResource(R.string.resume_game),
                     onClick = { goToGame() },
                     newWidth = 200,
                     newHeight = 45,
@@ -199,7 +201,7 @@ fun LandscapeLayout(
             }
 
             CustomButton(
-                text = "START GAME",
+                text = stringResource(R.string.start),
                 onClick = {
                     viewModel.clearSavedGame()
                     viewModel.resetHighScore()
@@ -215,7 +217,7 @@ fun LandscapeLayout(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             CustomButton(
-                text = "HIGH SCORE",
+                text = stringResource(R.string.high_score),
                 onClick = { goToHighScore() },
                 newWidth = 200,
                 newHeight = 45,
@@ -223,7 +225,7 @@ fun LandscapeLayout(
             )
             Spacer(modifier = Modifier.height(16.dp))
             CustomButton(
-                text = "DIFFICULTY",
+                text = stringResource(R.string.difficulty),
                 onClick = { viewModel.setIsShowingDifficultyLevels() },
                 newWidth = 200,
                 newHeight = 45,

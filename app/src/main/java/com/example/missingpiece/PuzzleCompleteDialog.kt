@@ -35,6 +35,7 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -85,13 +86,13 @@ fun PuzzleCompletedDialog(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            "Puzzle Completed!",
+                            stringResource(R.string.puzzle_completed),
                             style = MaterialTheme.typography.headlineSmall,
                             fontWeight = FontWeight.Bold
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            "Congratulations! You've solved the puzzle.",
+                            stringResource(R.string.puzzle_solved_sentence),
                             textAlign = TextAlign.Center
                         )
                         Spacer(modifier = Modifier.height(24.dp))
@@ -137,7 +138,7 @@ fun PuzzleCompletedDialog(
 
                     Row() {
                         CustomButton(
-                            text = "START",
+                            text = stringResource(R.string.start),
                             modifier = Modifier.padding(5.dp),
                             onClick = {
                                 hsViewModel.addHighScore(text, newScore, difficulty)

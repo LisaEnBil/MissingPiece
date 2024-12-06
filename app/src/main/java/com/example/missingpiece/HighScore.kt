@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -70,7 +71,7 @@ fun HighScore(hsViewModel: HighScoreViewModel) {
                 ) {
 
                 Text(
-                    text = "HIGH SCORE",
+                    text = stringResource(R.string.high_score),
                     fontFamily = FontFamily.Serif,
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
@@ -83,7 +84,7 @@ fun HighScore(hsViewModel: HighScoreViewModel) {
                         .padding(15.dp)
                 ) {
                     Text(
-                        text = "Name",
+                        text = stringResource(R.string.name),
                         fontFamily = FontFamily.SansSerif,
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
@@ -93,7 +94,8 @@ fun HighScore(hsViewModel: HighScoreViewModel) {
                     )
                     Spacer(Modifier.weight(0.5f))
                     Text(
-                        text = "Score", fontFamily = FontFamily.SansSerif,
+                        text = stringResource(R.string.score),
+                        fontFamily = FontFamily.SansSerif,
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 22.sp,

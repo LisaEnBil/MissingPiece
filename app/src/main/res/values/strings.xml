@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">MissingPiece</string>
+    <string name="difficulty">DIFFICULTY</string>
+    <string name="high_score">HIGH SCORE</string>
+    <string name="select_difficulty">Select Difficulty</string>
+    <string name="name">Name</string>
+    <string name="score">Score</string>
+    <string name="resume_game">RESUME</string>
+    <string name="start">START</string>
+    <string name="puzzle_completed">Puzzle Completed!</string>
+    <string name="puzzle_solved_sentence">Congratulations! You\'ve solved the puzzle.</string>
 </resources>

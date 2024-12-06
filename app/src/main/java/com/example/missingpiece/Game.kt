@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -81,6 +82,73 @@ fun Game(
             }
         } else {
 
+            @Composable
+            fun Game(
+                viewModel: GameViewModel,
+                hsViewModel: HighScoreViewModel,
+                onBackPressed: () -> Unit,
+                goToStart: () -> Unit,
+            ) {
+                val imageBitmap = ImageBitmap.imageResource(R.drawable.puppies)
+
+                val difficulty = viewModel.difficulty.value
+                val score = viewModel.score.value
+
+                BoxWithConstraints(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = Blue40)
+                ) {
+                    val screenWidth = maxWidth
+                    val screenHeight = maxHeight
+                    val isLandscape = screenWidth > screenHeight
+
+                    if (isLandscape) {
+                        Row {
+                            if (viewModel.hasFinishedGame.value){
+                                PuzzleCompletedDialog(viewModel, hsViewModel, goToStart, score, difficulty)
+                            }
+                            Box(modifier = Modifier.weight(0.7f),
+                                contentAlignment = Alignment.Center) {
+
+                                DrawPuzzleBoard(screenHeight, viewModel, onBackPressed, difficulty)
+                            }
+                            Column(modifier = Modifier.weight(0.3f)) {
+                                Text(text = "${stringResource(R.string.moves)}: $score", color = Orange10,
+                                    fontFamily = FontFamily.SansSerif,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 20.sp)
+                            }
+                        }
+                    } else {
+
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
+
+                            if (viewModel.hasFinishedGame.value){
+                                PuzzleCompletedDialog(viewModel, hsViewModel, goToStart, score, difficulty)
+                            }
+                            Box(modifier = Modifier
+                                .height(screenWidth)
+                                .fillMaxWidth(fraction = 1f)
+                                .pointerInput(Unit) {
+                                }
+                            ) {
+                                DrawPuzzleBoard(screenWidth, viewModel, onBackPressed, difficulty)
+                            }
+                            Text(text = "SLIDES: $score", color = Orange10,
+                                fontFamily = FontFamily.SansSerif,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 20.sp,
+                            )
+                        }
+                    }
+                }
+            }
             Column(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -99,7 +167,7 @@ fun Game(
                 ) {
                     DrawPuzzleBoard(screenWidth, viewModel, onBackPressed, difficulty)
                 }
-                Text(text = "SLIDES: $score", color = Orange10,
+                Text(text = "${stringResource(R.string.moves)}: $score", color = Orange10,
                     fontFamily = FontFamily.SansSerif,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 20.sp,

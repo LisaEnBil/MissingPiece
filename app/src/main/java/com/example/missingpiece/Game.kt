@@ -21,6 +21,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.imageResource
@@ -30,7 +32,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.missingpiece.ui.theme.Blue10
 import com.example.missingpiece.ui.theme.Blue40
+import com.example.missingpiece.ui.theme.Green10
 import com.example.missingpiece.ui.theme.Orange10
 import com.example.missingpiece.ui.theme.Orange20
 
@@ -54,10 +58,15 @@ fun Game(
     val difficulty = viewModel.difficulty.value
     val score = viewModel.score.value
 
+    val colorStops = arrayOf(
+        0.0f to Blue10,
+        1f to Green10
+    )
+
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Blue40)
+            .background(Brush.verticalGradient(colorStops = colorStops))
     ) {
         val screenWidth = maxWidth
         val screenHeight = maxHeight
@@ -74,81 +83,13 @@ fun Game(
                     DrawPuzzleBoard(screenHeight, viewModel, onBackPressed, difficulty)
                 }
                 Column(modifier = Modifier.weight(0.3f)) {
-                    Text(text = "SLIDES: $score", color = Orange10,
+                    Text(text = "${stringResource(R.string.moves)}: $score", color = Color.White,
                         fontFamily = FontFamily.SansSerif,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 20.sp)
                 }
             }
         } else {
-
-            @Composable
-            fun Game(
-                viewModel: GameViewModel,
-                hsViewModel: HighScoreViewModel,
-                onBackPressed: () -> Unit,
-                goToStart: () -> Unit,
-            ) {
-                val imageBitmap = ImageBitmap.imageResource(R.drawable.puppies)
-
-                val difficulty = viewModel.difficulty.value
-                val score = viewModel.score.value
-
-                BoxWithConstraints(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(color = Blue40)
-                ) {
-                    val screenWidth = maxWidth
-                    val screenHeight = maxHeight
-                    val isLandscape = screenWidth > screenHeight
-
-                    if (isLandscape) {
-                        Row {
-                            if (viewModel.hasFinishedGame.value){
-                                PuzzleCompletedDialog(viewModel, hsViewModel, goToStart, score, difficulty)
-                            }
-                            Box(modifier = Modifier.weight(0.7f),
-                                contentAlignment = Alignment.Center) {
-
-                                DrawPuzzleBoard(screenHeight, viewModel, onBackPressed, difficulty)
-                            }
-                            Column(modifier = Modifier.weight(0.3f)) {
-                                Text(text = "${stringResource(R.string.moves)}: $score", color = Orange10,
-                                    fontFamily = FontFamily.SansSerif,
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontSize = 20.sp)
-                            }
-                        }
-                    } else {
-
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
-
-                            if (viewModel.hasFinishedGame.value){
-                                PuzzleCompletedDialog(viewModel, hsViewModel, goToStart, score, difficulty)
-                            }
-                            Box(modifier = Modifier
-                                .height(screenWidth)
-                                .fillMaxWidth(fraction = 1f)
-                                .pointerInput(Unit) {
-                                }
-                            ) {
-                                DrawPuzzleBoard(screenWidth, viewModel, onBackPressed, difficulty)
-                            }
-                            Text(text = "SLIDES: $score", color = Orange10,
-                                fontFamily = FontFamily.SansSerif,
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 20.sp,
-                            )
-                        }
-                    }
-                }
-            }
             Column(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -167,7 +108,7 @@ fun Game(
                 ) {
                     DrawPuzzleBoard(screenWidth, viewModel, onBackPressed, difficulty)
                 }
-                Text(text = "${stringResource(R.string.moves)}: $score", color = Orange10,
+                Text(text = "${stringResource(R.string.moves)}: $score", color = Color.White,
                     fontFamily = FontFamily.SansSerif,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 20.sp,
@@ -176,6 +117,7 @@ fun Game(
         }
     }
 }
+
 
 @Composable
 fun DrawPuzzleBoard(
@@ -205,8 +147,8 @@ fun DrawPuzzleBoard(
     val difficultyInt = difficulty * 1f
 
     Canvas(modifier = Modifier
-        .background(color = Orange20)
         .padding(10.dp)
+        .background(color = Orange20)
         .size(screenHeight - 20.dp)
         .pointerInput(Unit) {
             detectDragGestures(
@@ -254,10 +196,10 @@ fun DrawPuzzleBoard(
                     with(puzzle) {
                         if (isLandscape){
                             val cellSize = newScreen / difficulty
-                            drawBoxWithNumber(number, x, y, cellSize)
+                            drawBoxWithNumber(number, x, y, cellSize, difficulty)
                         }else{
                             val cellSize = size.width / difficulty
-                            drawBoxWithNumber(number, x, y, cellSize)
+                            drawBoxWithNumber(number, x, y, cellSize, difficulty)
                         }
 
                     }

@@ -28,7 +28,7 @@ import com.example.missingpiece.ui.theme.Orange10
 
 @Composable
 fun DifficultySelector(viewModel: GameViewModel) {
-    val difficulties = listOf(2, 3, 4, 5)
+    val difficulties = listOf(3, 4, 5)
     val selectedDifficulty by viewModel.difficulty
 
     Column(

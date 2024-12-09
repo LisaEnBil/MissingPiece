@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class GameViewModel() : ViewModel() {
 
-    private val _difficulty = mutableIntStateOf(2)
+    private val _difficulty = mutableIntStateOf(3)
     val difficulty: State<Int> = _difficulty
 
     private val _score = mutableIntStateOf(0)

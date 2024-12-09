@@ -3,6 +3,7 @@ package com.example.missingpiece
 import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -10,6 +11,12 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.missingpiece.ui.theme.Blue10
+import com.example.missingpiece.ui.theme.Green10
+import com.example.missingpiece.ui.theme.Orange10
+import com.example.missingpiece.ui.theme.Orange20
+import com.example.missingpiece.ui.theme.Orange40
+import com.example.missingpiece.ui.theme.Orange60
+import com.example.missingpiece.ui.theme.Yellow10
 import kotlin.math.abs
 
 class Puzzle {
@@ -150,7 +157,7 @@ class Puzzle {
         }
     }
 
-    fun DrawScope.drawBoxWithNumber(number: Int, x: Int, y: Int, cellSize: Float) {
+    /*fun DrawScope.drawBoxWithNumber(number: Int, x: Int, y: Int, cellSize: Float) {
 
         val padding = 5
         val boxSize = cellSize - (padding * 2)
@@ -176,7 +183,56 @@ class Puzzle {
                 paint
             )
         }
+    } */
+    fun DrawScope.drawBoxWithNumber(number: Int, x: Int, y: Int, cellSize: Float, difficulty: Int) {
+        val padding = 5
+        val boxSize = cellSize - (padding * 2)
+        val left = (x * cellSize) + padding
+        val top = (y * cellSize) + padding
+
+        // Determine the color based on the number and game size
+        val color1 = when (difficulty) {
+            3 -> when (number) {
+                in 1..3 -> Yellow10
+                in 4..6 -> Orange60
+                else -> Orange40
+            }
+            4 -> when (number) {
+                in 1..4 -> Yellow10
+                in 5..8 -> Orange60
+                in 9..12 -> Orange40
+                else -> Orange10
+            }
+            else -> when (number) {
+                in 1..5 -> Yellow10
+                in 6..10 -> Orange60
+                in 11..15 -> Orange40
+                in 16..20 -> Orange10
+                else -> Orange20
+            }
+        }
+
+        drawRect(
+            color = color1,
+            topLeft = Offset(left, top),
+            size = Size(boxSize, boxSize)
+        )
+
+        drawIntoCanvas { canvas ->
+            val paint = Paint().asFrameworkPaint().apply {
+                color = android.graphics.Color.WHITE
+                textSize = 36.sp.toPx()
+                textAlign = android.graphics.Paint.Align.CENTER
+            }
+            canvas.nativeCanvas.drawText(
+                number.toString(),
+                left + (cellSize / 2),
+                top + (cellSize / 2) + (paint.textSize / 3),
+                paint
+            )
+        }
     }
+
 }
 
 

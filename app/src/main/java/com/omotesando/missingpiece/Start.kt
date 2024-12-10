@@ -1,4 +1,4 @@
-package com.example.missingpiece
+package com.omotesando.missingpiece
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image

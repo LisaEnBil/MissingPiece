@@ -1,22 +1,17 @@
-package com.example.missingpiece
+package com.omotesando.missingpiece
 
-import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.missingpiece.ui.theme.Blue10
-import com.example.missingpiece.ui.theme.Green10
-import com.example.missingpiece.ui.theme.Orange10
-import com.example.missingpiece.ui.theme.Orange20
-import com.example.missingpiece.ui.theme.Orange40
-import com.example.missingpiece.ui.theme.Orange60
-import com.example.missingpiece.ui.theme.Yellow10
+import com.omotesando.missingpiece.ui.theme.Orange10
+import com.omotesando.missingpiece.ui.theme.Orange20
+import com.omotesando.missingpiece.ui.theme.Orange40
+import com.omotesando.missingpiece.ui.theme.Orange60
+import com.omotesando.missingpiece.ui.theme.Yellow10
 import kotlin.math.abs
 
 class Puzzle {

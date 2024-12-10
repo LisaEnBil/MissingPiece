@@ -1,9 +1,7 @@
-package com.example.missingpiece
+package com.omotesando.missingpiece
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

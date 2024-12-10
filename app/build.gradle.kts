@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.missingpiece"
+    namespace = "com.omotesando.missingpiece"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.missingpiece"
+        applicationId = "com.omotesando.missingpiece"
         minSdk = 34
         targetSdk = 35
         versionCode = 1

@@ -1,4 +1,4 @@
-package com.example.missingpiece
+package com.omotesando.missingpiece
 
 import org.junit.Test
 

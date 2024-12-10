@@ -1,7 +1,6 @@
-package com.example.missingpiece
+package com.omotesando.missingpiece
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -34,11 +33,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.missingpiece.ui.theme.Blue10
-import com.example.missingpiece.ui.theme.Blue40
-import com.example.missingpiece.ui.theme.Green10
-import com.example.missingpiece.ui.theme.Orange10
-import com.example.missingpiece.ui.theme.Orange20
+import com.omotesando.missingpiece.ui.theme.Blue10
+import com.omotesando.missingpiece.ui.theme.Green10
 
 
 enum class Direction {

@@ -1,4 +1,4 @@
-package com.example.missingpiece
+package com.omotesando.missingpiece
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -27,8 +27,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.missingpiece.ui.theme.Orange10
-import com.example.missingpiece.ui.theme.Orange40
+import com.omotesando.missingpiece.ui.theme.Orange10
+import com.omotesando.missingpiece.ui.theme.Orange40
 
 
 @Composable

@@ -1,4 +1,4 @@
-package com.example.missingpiece.ui.theme
+package com.omotesando.missingpiece.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

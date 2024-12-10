@@ -1,4 +1,4 @@
-package com.example.missingpiece
+package com.omotesando.missingpiece
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

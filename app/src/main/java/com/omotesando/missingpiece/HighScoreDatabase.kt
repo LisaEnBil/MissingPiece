@@ -1,8 +1,6 @@
-package com.example.missingpiece
+package com.omotesando.missingpiece
 
 import android.content.Context
-import android.util.Log
-import androidx.compose.ui.platform.LocalContext
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Database

@@ -1,6 +1,5 @@
-package com.example.missingpiece.ui.theme
+package com.omotesando.missingpiece.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

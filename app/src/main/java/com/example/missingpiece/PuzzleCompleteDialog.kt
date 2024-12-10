@@ -167,10 +167,9 @@ fun PuzzleCompletedDialog(
 
 fun calculatePoints(difficulty: Int, moves: Int): Int {
     val basePoints = when (difficulty) {
-        2 -> 500
-        3 -> 1000
-        4 -> 2000
-        5 -> 3000
+        3 -> 5000
+        4 -> 8000
+        5 -> 10000
         else -> 0
     }
 

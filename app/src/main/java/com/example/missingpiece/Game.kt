@@ -1,8 +1,10 @@
 package com.example.missingpiece
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -74,19 +76,23 @@ fun Game(
 
         if (isLandscape) {
             Row {
-                if (viewModel.hasFinishedGame.value){
+                if (viewModel.hasFinishedGame.value) {
                     PuzzleCompletedDialog(viewModel, hsViewModel, goToStart, score, difficulty)
                 }
-                Box(modifier = Modifier.weight(0.7f),
-                    contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier.weight(0.7f),
+                    contentAlignment = Alignment.Center
+                ) {
 
                     DrawPuzzleBoard(screenHeight, viewModel, onBackPressed, difficulty)
                 }
                 Column(modifier = Modifier.weight(0.3f)) {
-                    Text(text = "${stringResource(R.string.moves)}: $score", color = Color.White,
+                    Text(
+                        text = "${stringResource(R.string.moves)}: $score", color = Color.White,
                         fontFamily = FontFamily.SansSerif,
                         fontWeight = FontWeight.SemiBold,
-                        fontSize = 20.sp)
+                        fontSize = 20.sp
+                    )
                 }
             }
         } else {
@@ -97,7 +103,7 @@ fun Game(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
 
-                if (viewModel.hasFinishedGame.value){
+                if (viewModel.hasFinishedGame.value) {
                     PuzzleCompletedDialog(viewModel, hsViewModel, goToStart, score, difficulty)
                 }
                 Box(modifier = Modifier
@@ -108,7 +114,8 @@ fun Game(
                 ) {
                     DrawPuzzleBoard(screenWidth, viewModel, onBackPressed, difficulty)
                 }
-                Text(text = "${stringResource(R.string.moves)}: $score", color = Color.White,
+                Text(
+                    text = "${stringResource(R.string.moves)}: $score", color = Color.White,
                     fontFamily = FontFamily.SansSerif,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 20.sp,
@@ -131,7 +138,7 @@ fun DrawPuzzleBoard(
     val grid = remember {
         mutableStateOf(viewModel.getSavedGameState() ?: puzzle.generateGrid(difficulty))
     }
-    
+
     val emptyPosition = remember { mutableStateOf(puzzle.findEmptyPosition(grid.value)) }
 
     DisposableEffect(Unit) {
@@ -146,45 +153,46 @@ fun DrawPuzzleBoard(
     }
     val difficultyInt = difficulty * 1f
 
-    Canvas(modifier = Modifier
-        .padding(10.dp)
-        .background(color = Orange20)
-        .size(screenHeight - 20.dp)
-        .pointerInput(Unit) {
-            detectDragGestures(
-                onDragEnd = {},
-                onDragCancel = {},
-                onDrag = { change, dragAmount ->
-                    val direction = puzzle.getDragDirection(dragAmount)
-                    if (direction != null) {
-                        val touchedBox =
-                            puzzle.findTouchedBox(
-                                change.position,
-                                grid.value.size,
-                                size.width / difficultyInt
-                            )
-                        if (touchedBox != null) {
-                            with(puzzle) {
+    Canvas(
+        modifier = Modifier
+            .padding(10.dp)
+            .size(screenHeight - 20.dp)
+            .border(2.dp, Color.Black)
+            .pointerInput(Unit) {
+                detectDragGestures(
+                    onDragEnd = {},
+                    onDragCancel = {},
+                    onDrag = { change, dragAmount ->
+                        val direction = puzzle.getDragDirection(dragAmount)
+                        if (direction != null) {
+                            val touchedBox =
+                                puzzle.findTouchedBox(
+                                    change.position,
+                                    grid.value.size,
+                                    size.width / difficultyInt
+                                )
+                            if (touchedBox != null) {
+                                with(puzzle) {
 
-                                val (newGrid, newEmptyPosition) = grid.value.tryMove(
-                                    direction,
-                                    viewModel,
-                                    difficulty,
-                                    emptyPosition.value,
-                                    touchedBox,
+                                    val (newGrid, newEmptyPosition) = grid.value.tryMove(
+                                        direction,
+                                        viewModel,
+                                        difficulty,
+                                        emptyPosition.value,
+                                        touchedBox,
 
-                                    ) {
+                                        ) {
 
-                                    viewModel.setHighScore()
+                                        viewModel.setHighScore()
+                                    }
+                                    grid.value = newGrid
+                                    emptyPosition.value = newEmptyPosition
                                 }
-                                grid.value = newGrid
-                                emptyPosition.value = newEmptyPosition
                             }
                         }
                     }
-                }
-            )
-        }) {
+                )
+            }) {
         val screenWidth = size.width
         val newScreen = screenHeight.toPx() * 1f
         val isLandscape = screenWidth > newScreen
@@ -194,10 +202,10 @@ fun DrawPuzzleBoard(
 
                 if (number != 0) {
                     with(puzzle) {
-                        if (isLandscape){
+                        if (isLandscape) {
                             val cellSize = newScreen / difficulty
                             drawBoxWithNumber(number, x, y, cellSize, difficulty)
-                        }else{
+                        } else {
                             val cellSize = size.width / difficulty
                             drawBoxWithNumber(number, x, y, cellSize, difficulty)
                         }

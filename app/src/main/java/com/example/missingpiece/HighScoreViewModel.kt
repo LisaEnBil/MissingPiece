@@ -25,10 +25,7 @@ class HighScoreViewModel(context: Context) : ViewModel() {
 
         val tempUser = User(0, name, score, size)
 
-        Log.i("LISA", "Add high score")
-
         CoroutineScope(Dispatchers.IO).launch {
-            Log.i("LISA", "Coroutine scope")
             userDao.insertAll(tempUser)
         }
     }
@@ -41,6 +38,4 @@ class HighScoreViewModel(context: Context) : ViewModel() {
         }
     }
 
-
-    fun deleteHighScore() {}
 }

@@ -6,7 +6,7 @@
     <string name="select_difficulty">Välj Svårighetsgrad</string>
     <string name="name">Namn</string>
     <string name="score">Poäng</string>
-    <string name="resume_game">ÅTERUPTA</string>
+    <string name="resume_game">ÅTERUPPTA</string>
     <string name="start">START</string>
     <string name="puzzle_completed">Pusslet avklarat!</string>
     <string name="puzzle_solved_sentence">Grattis! Du har klarat pusslet.</string>

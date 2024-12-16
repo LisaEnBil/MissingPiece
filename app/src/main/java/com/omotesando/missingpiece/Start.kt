@@ -97,7 +97,9 @@ fun PortraitLayout(
                 CustomButton(
 
                     text = stringResource(R.string.resume_game),
-                    onClick = { goToGame() },
+                    onClick = {
+                        viewModel.setIsShowingDifficultyLevels()
+                        goToGame() },
                     newWidth = 280,
                     newHeight = 65,
                     newFontSize = 28
@@ -112,6 +114,7 @@ fun PortraitLayout(
                 CustomButton(
                     text = stringResource(R.string.start),
                     onClick = {
+                        viewModel.setIsShowingDifficultyLevels()
                         viewModel.clearSavedGame()
                         viewModel.resetHighScore()
                         goToGame()
@@ -188,6 +191,7 @@ fun LandscapeLayout(
             verticalArrangement = Arrangement.Bottom
         ) {
             if (hasOngoingGame && isResetComplete) {
+                viewModel.setIsShowingDifficultyLevels()
                 CustomButton(
                     text = stringResource(R.string.resume_game),
                     onClick = { goToGame() },
@@ -203,6 +207,8 @@ fun LandscapeLayout(
             CustomButton(
                 text = stringResource(R.string.start),
                 onClick = {
+                    viewModel.setIsShowingDifficultyLevels()
+
                     viewModel.clearSavedGame()
                     viewModel.resetHighScore()
                     goToGame()
